@@ -22,7 +22,7 @@ openai.api_key = openai_api_key
 def query_openai_api(prompt):
 
     response = openai.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4o-latest",
         messages=[
             {f"role": "system", "content": "You are an assistant that provides detailed country information. You are factual and neutral in tone and views. You always try to provide an informative, yet constrcutive, forward looking and positive response and to avoid discuss any controversial or political topics."},
             {"role": "user", "content": prompt}
@@ -129,7 +129,7 @@ st.markdown("""
 
 if config['app']['show_group_selector']:
     # Group selector
-    group_name = st.sidebar.selectbox("Select the group of countries", ["LDCs", "LLDCs", "SIDS", "EU", "OECD", "BRICS", "G7", "G20", "G77"])
+    group_name = st.sidebar.selectbox("Select the group of countries", ["LLDCs", "LDCs", "SIDS", "EU", "OECD", "BRICS", "G7", "G20", "G77"])
 else:
     group_name = "LLDCs"
 
@@ -250,7 +250,11 @@ if selected_country:
         indicator_data = load_indicator_country_data_from_cache("SL.TLF.CACT.FM.ZS", group_name.lower(), selected_country)
         display_chart(indicator_data, "Labor force participation rate for ages 15-24 (% of population)", "World Bank")
 
-        st.markdown(f"**Unemployment rate**<br>{factbook_data['Economy']['Unemployment rate']['Unemployment rate 2023']['text']}", unsafe_allow_html=True)
+        if (text := factbook_data.get('Economy', {})
+                        .get('Unemployment rate', {})
+                        .get('Unemployment rate 2023', {})
+                        .get('text')):
+            st.markdown(f"**Unemployment rate**<br>{text}", unsafe_allow_html=True)
         
         # Load the data for the selected country
         indicator_data = load_indicator_country_data_from_cache("SL.UEM.TOTL.ZS", group_name.lower(), selected_country)
