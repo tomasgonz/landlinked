@@ -11,6 +11,7 @@ from quotes import quotes
 import random
 from maps import create_map_from_dms
 from streamlit_folium import st_folium
+from data_ops import normalize_dictionary
 
 # Load the configuration file
 with open('config.yaml', 'r') as config_file:
@@ -124,12 +125,16 @@ st.markdown("""
             <a href="#connectivity">Connectivity</a>
             <a href="#economy">Economy</a>
         </div>
-    </div>
+    i</div>
     """, unsafe_allow_html=True)
+
+st.sidebar.header("Data explorer")
+st.sidebar.write("by Tomas Gonzalez")
+st.sidebar.caption("*nulla dies sine linea*")
 
 if config['app']['show_group_selector']:
     # Group selector
-    group_name = st.sidebar.selectbox("Select the group of countries", ["LLDCs", "LDCs", "SIDS", "EU", "OECD", "BRICS", "G7", "G20", "G77"])
+    group_name = st.sidebar.selectbox("Select the group of countries", ["LLDCs", "LDCs", "SIDS"])
 else:
     group_name = "LLDCs"
 
@@ -138,7 +143,7 @@ quote = quotes[random.randint(0, len(quotes)-1)]
 
 st.sidebar.markdown(f"*{quote['text']}*<br>**{quote['author']}**", unsafe_allow_html=True)
 
-# Load the codes and descriptions 
+# Load the codes and descriptions
 data = {}
 for code in indicators:
     data[code] = {'source': indicators[code]['source'], 'description': indicators[code]['description']}
@@ -154,26 +159,11 @@ st.sidebar.markdown(f"# List of {group_name}")
 for country in group:
     iso3 = get_iso3_from_name(country, group_name.lower())
     flag = get_small_flag(iso3)
-    st.sidebar.markdown(f"{flag} {country}")   
+    st.sidebar.markdown(f"{flag} {country}")
 
 # Disclaimer
 
 st.sidebar.markdown(f"*The data presented here is for informational purposes only.  While we strive to keep the information up to date and correct, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect to the website or the information, products, services, or related graphics contained on the website for any purpose. Any reliance you place on such information is therefore strictly at your own risk.*", unsafe_allow_html=True)
-
-def normalize_dictionary(data):
-    # Normalize the nested dictionary data
-    df = pd.json_normalize(data)
-    # Flattening specific columns
-    df = df.rename(columns={
-        'indicator.id': 'indicator_id',
-        'indicator.value': 'indicator_value',
-        'country.id': 'country_id',
-        'country.value': 'country_value'})
-    
-    # Remove rows with None values in the 'date' column
-    df = df.dropna(subset=['value'])
-    
-    return df
 
 def display_chart(data, title, source):
     # Load the data for the selected country
@@ -193,10 +183,10 @@ def display_chart(data, title, source):
                 with colb:
                     delta_value = (((latest_value - first_value) / first_value)*100).round(2)
                     st.metric(label=latest_year, value=latest_value, delta=delta_value)
-                
+
                 st.line_chart(df, x ='date', y='value', x_label='Date', y_label='Value')
-                
-                st.caption(f"Source: {source}")     
+
+                st.caption(f"Source: {source}")
             else:
                 st.write("No series data available for this country")
 
@@ -209,10 +199,10 @@ if selected_country:
     factbook_data = load_factbook_data(selected_country_fips)
 
     col1, col2 = st.columns([3, 1])
-    
+
     with col1:
         st.title(f" {selected_country}")
-        
+
         st.markdown(f"{selected_country_profile}", unsafe_allow_html=True)
 
         with st.container(border=True):
@@ -223,7 +213,7 @@ if selected_country:
                 openai_response = query_openai_api(user_query)
                 st.markdown("""
                     **Disclaimer:** The information provided here is intended for informational purposes only. It may not be accurate or up-to-date. Always verify with reliable sources.
-                """)            
+                """)
                 st.markdown(f"{openai_response}")
 
         st.subheader("Environment")
@@ -231,9 +221,9 @@ if selected_country:
         st.markdown(f"**Climate**<br>{factbook_data['Environment']['Climate']['text']}", unsafe_allow_html=True)
 
         # Load the data for the selected country
-        indicator_data = load_indicator_country_data_from_cache("EN.ATM.CO2E.KT", group_name.lower(), selected_country)
-        display_chart(indicator_data, "CO2 emissions ((kt))", "World Bank")
-        
+        indicator_data = load_indicator_country_data_from_cache("EN.GHG.CO2.PC.CE.AR5", group_name.lower(), selected_country)
+        display_chart(indicator_data, "Carbon dioxide (CO2) emissions (total) excluding LULUCF (MT CO2e)", "World Bank")
+
         #st.markdown(f"**Current environmental issues**<br>{factbook_data['Environment']['Environment - current issues']['text']}", unsafe_allow_html=True)
 
         st.markdown(f"**Party to the following environmental international agreements**<br>{factbook_data['Environment']['Environment - international agreements']['party to']['text']}", unsafe_allow_html=True)
@@ -243,7 +233,7 @@ if selected_country:
         display_chart(indicator_data, "CO2 emissions (pc)", "World Bank")
 
         st.subheader("Labor force")
-        
+
         st.markdown(f"**Youth unemployment rate**<br>{factbook_data['Economy']['Youth unemployment rate (ages 15-24)']['total']['text']}", unsafe_allow_html=True)
 
         # Load the data for the selected country
@@ -255,7 +245,7 @@ if selected_country:
                         .get('Unemployment rate 2023', {})
                         .get('text')):
             st.markdown(f"**Unemployment rate**<br>{text}", unsafe_allow_html=True)
-        
+
         # Load the data for the selected country
         indicator_data = load_indicator_country_data_from_cache("SL.UEM.TOTL.ZS", group_name.lower(), selected_country)
         display_chart(indicator_data, "Unemployment, total (% of total labor force)", "World Bank")
@@ -263,14 +253,14 @@ if selected_country:
         st.subheader("Population")
 
         if 'Population distribution' in factbook_data['People and Society']:
-            
+
             st.markdown(f"**Population**<br>{factbook_data['People and Society']['Population distribution']['text']}", unsafe_allow_html=True)
-        
+
         indicator_data = load_indicator_country_data_from_cache("SP.POP.TOTL", group_name.lower(), selected_country)
         display_chart(indicator_data, "Population, total", "World Bank")
 
         st.subheader("Education")
-        
+
         st.markdown(f"**Education expenditure**<br>{factbook_data['People and Society']['Education expenditures']['text']}", unsafe_allow_html=True)
 
         # Load the data for the selected country
@@ -284,7 +274,7 @@ if selected_country:
 
         # Load the data for the selected country
         indicator_data = load_indicator_country_data_from_cache("IT.NET.BBND.P2", group_name.lower(), selected_country)
-        display_chart(indicator_data, "Fixed broadband subscriptions (per 100 people)", "World Bank")   
+        display_chart(indicator_data, "Fixed broadband subscriptions (per 100 people)", "World Bank")
 
         st.subheader("Economy")
         st.markdown(f"**Main manufactured products**<br>{factbook_data['Economy']['Industries']['text']}", unsafe_allow_html=True)
@@ -323,7 +313,7 @@ if selected_country:
 
         indicator_data = load_indicator_country_data_from_cache("GC.DOD.TOTL.CN", group_name.lower(), selected_country)
         display_chart(indicator_data, "Central government debt, total (current LCU)", "World Bank")
-        
+
     with col2:
         st.image(f"https://flagcdn.com/w320/{selected_country_iso2.lower()}.png")
         geographic_coordinates = factbook_data['Geography']['Geographic coordinates']['text']
@@ -344,13 +334,13 @@ if selected_country:
         st.markdown(f"**Capital**<br> {country_data[0]['capital'][0]}", unsafe_allow_html=True)
         st.markdown(f"**Region**<br> {country_data[0]['region']}", unsafe_allow_html=True)
         st.markdown(f"**Subregion**<br> {country_data[0]['subregion']}", unsafe_allow_html=True)
-        
+
         st.markdown(f"**Area**<br> {country_data[0]['area']}", unsafe_allow_html=True)
         st.markdown(f"**Population**<br> {country_data[0]['population']}", unsafe_allow_html=True)
 
         border_countries = [get_name_from_iso3(border) for border in country_data[0]['borders']]
         border_countries.sort()
-        st.markdown(f"**Borders**<br> {', '.join(border_countries)}", unsafe_allow_html=True) 
+        st.markdown(f"**Borders**<br> {', '.join(border_countries)}", unsafe_allow_html=True)
         st.markdown(f"**Main export partners**<br>{factbook_data['Economy']['Exports - partners']['text']}", unsafe_allow_html=True)
         st.markdown(f"**Main import partners**<br>{factbook_data['Economy']['Imports - partners']['text']}", unsafe_allow_html=True)
         st.markdown(f"**Main export products**<br>{factbook_data['Economy']['Exports - commodities']['text']}", unsafe_allow_html=True)
