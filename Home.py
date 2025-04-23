@@ -105,7 +105,7 @@ st.header(f"Data and information about the {group_name}")
 def display_group_indicator_card(INDICATOR):
     st.subheader(f"{indicators[INDICATOR]['description']} · {group_name}")
     series = compute_group_aggregate(INDICATOR,group_name.lower())
-    st.line_chart(series)
+    st.line_chart(series[0])
 
 if selected_country == None:
 

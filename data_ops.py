@@ -45,10 +45,13 @@ def compute_group_aggregate(indicator_id: str, group: str) -> pd.Series:
         den = m.groupby("date")["value_wgt"].sum()
         result = num.div(den)
 
+        return [result.sort_index(), m]
+
+
     else:
         raise ValueError(f"Unknown agg rule '{rule}' for {indicator_id}")
 
-    return result.sort_index()
+    return [result.sort_index()]
 
 def normalize_dictionary(data):
     # Normalize the nested dictionary data

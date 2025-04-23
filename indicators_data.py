@@ -15,6 +15,11 @@ indicators = {
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.PP.CD',
     },
+    'NY.GDP.MKTP.CD': {
+        'source':       'World Bank',
+        'description':  'GDP (current US$)',
+        'agg':          'sum'
+    },
     'AG.SRF.TOTL.K2': {
         'source':      'World Bank',
         'description': 'Surface area (sq. km)',
@@ -54,21 +59,6 @@ indicators = {
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.PP.CD',
     },
-    'IC.IMP.CSBC.CD': {
-        'source':      'World Bank',
-        'description': 'Imports of goods and services (current US$)',
-        'agg':         'sum',
-    },
-    'IC.IMP.TMBC': {
-        'source':      'World Bank',
-        'description': 'Imports of goods and services (BoP, current US$)',
-        'agg':         'sum',
-    },
-    'IC.EXP.CSBC.CD': {
-        'source':      'World Bank',
-        'description': 'Exports of goods and services (current US$)',
-        'agg':         'sum',
-    },
     'EN.GHG.CO2.PC.CE.AR5': {
         'source':      'World Bank',
         'description': 'CO₂ emissions per capita (t CO₂e/capita)',
@@ -107,18 +97,6 @@ indicators = {
     'IT.CEL.SETS.P2': {
         'source':      'World Bank',
         'description': 'Mobile cellular subscriptions (per 100 people)',
-        'agg':         'weighted',
-        'weight_by':   'SP.POP.TOTL',
-    },
-    'SH.H2O.SAFE.ZS': {
-        'source':      'World Bank',
-        'description': 'Improved water source (% of population)',
-        'agg':         'weighted',
-        'weight_by':   'SP.POP.TOTL',
-    },
-    'SH.STA.ACSN': {
-        'source':      'World Bank',
-        'description': 'Improved sanitation (% of population)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
