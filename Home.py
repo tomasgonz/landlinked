@@ -11,7 +11,8 @@ from quotes import quotes
 import random
 from maps import create_map_from_dms
 from streamlit_folium import st_folium
-from data_ops import normalize_dictionary
+from data_ops import normalize_dictionary, compute_group_aggregate
+from css import css_general, css_menu
 
 # Load the configuration file
 with open('config.yaml', 'r') as config_file:
@@ -23,7 +24,7 @@ openai.api_key = openai_api_key
 def query_openai_api(prompt):
 
     response = openai.chat.completions.create(
-        model="gpt-4o-latest",
+        model="gpt-4o-mini",
         messages=[
             {f"role": "system", "content": "You are an assistant that provides detailed country information. You are factual and neutral in tone and views. You always try to provide an informative, yet constrcutive, forward looking and positive response and to avoid discuss any controversial or political topics."},
             {"role": "user", "content": prompt}
@@ -32,101 +33,10 @@ def query_openai_api(prompt):
     return response.choices[0].message.content
 
 # Custom CSS for better font and spacing
-st.markdown("""
-    <style>
-    .reportview-container .main .block-container {
-        padding: 2rem;
-        font-family: 'Arial', sans-serif;
-    }
-    .sidebar .sidebar-content {
-        width: 300px;
-    }
-    h1 {
-        font-size: 2.5rem;
-        font-weight: bold;
-    }
-    .card {
-        padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin: 1rem 0;
-    }
-    .metric-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem;
-        background: #f9f9f9;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-bottom: 1rem;
-    }
-    .metric {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-    /* Floating menu */
-    .floating-menu {
-        position: fixed;
-        top: 50%;
-        right: 20px;
-        transform: translateY(-50%);
-        background: #ffffff;
-        padding: 10px 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        transition: right 0.3s ease;
-    }
-    .floating-menu:hover {
-        right: 0;
-    }
-    .floating-menu a {
-        text-decoration: none;
-        color: #000000;
-        font-weight: 600;
-        display: block;
-        padding: 5px;
-        margin: 10px 0;
-        transition: all 0.3s ease;
-    }
-    .floating-menu a:hover {
-        color: #ffffff;
-        background-color: #007BFF;
-        border-radius: 5px;
-    }
-    .floating-menu .menu-header {
-        cursor: pointer;
-        font-weight: bold;
-    }
-    .menu-content {
-        display: none;
-    }
-    .menu-content a {
-        display: block;
-        padding: 5px;
-        margin: 5px 0;
-    }
-    .menu-header:hover + .menu-content, .menu-content:hover {
-        display: block;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+st.markdown(css_general, unsafe_allow_html=True)
 
 # Floating menu with section links
-st.markdown("""
-    <div class="floating-menu">
-        <div class="menu-header">Sections</div>
-        <div class="menu-content">
-            <a href="#environment">Environment</a>
-            <a href="#labor-force">Labor Force</a>
-            <a href="#population">Population</a>
-            <a href="#education">Education</a>
-            <a href="#connectivity">Connectivity</a>
-            <a href="#economy">Economy</a>
-        </div>
-    i</div>
-    """, unsafe_allow_html=True)
+st.markdown(css_menu,  unsafe_allow_html=True)
 
 st.sidebar.header("Data explorer")
 st.sidebar.write("by Tomas Gonzalez")
@@ -152,7 +62,7 @@ for code in indicators:
 group = get_group_countries_name(group_name.lower())
 group.sort()
 
-selected_country = st.sidebar.selectbox("Select Country", group)
+selected_country = st.sidebar.selectbox("Select Country", group, index=None)
 
 st.sidebar.markdown(f"# List of {group_name}")
 
@@ -189,6 +99,35 @@ def display_chart(data, title, source):
                 st.caption(f"Source: {source}")
             else:
                 st.write("No series data available for this country")
+
+st.header(f"Data and information about the {group_name}")
+
+def display_group_indicator_card(INDICATOR):
+    st.subheader(f"{indicators[INDICATOR]['description']} · {group_name}")
+    series = compute_group_aggregate(INDICATOR,group_name.lower())
+    st.line_chart(series)
+
+if selected_country == None:
+
+    display_group_indicator_card("BX.KLT.DINV.WD.GD.ZS")
+    display_group_indicator_card("NY.GDP.MKTP.PP.CD")
+    display_group_indicator_card("BX.KLT.DINV.WD.GD.ZS")
+    display_group_indicator_card("NY.GDP.MKTP.PP.CD")
+    display_group_indicator_card("IT.CEL.SETS.P2")
+    display_group_indicator_card("SP.POP.TOTL")
+    display_group_indicator_card("BN.CAB.XOKA.CD")
+    display_group_indicator_card("FI.RES.TOTL.CD")
+
+
+
+
+
+
+
+
+
+
+
 
 if selected_country:
     selected_country_iso2 = get_iso2_from_name(selected_country)
