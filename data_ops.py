@@ -44,7 +44,7 @@ def compute_group_aggregate(indicator_id: str, group: str) -> pd.Series:
         num = (m["value"] * m["value_wgt"]).groupby(m["date"]).sum()
         den = m.groupby("date")["value_wgt"].sum()
         result = num.div(den)
-
+        result.name = "weighted_average"
         return [result.sort_index(), m]
 
 

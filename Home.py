@@ -62,7 +62,7 @@ for code in indicators:
 group = get_group_countries_name(group_name.lower())
 group.sort()
 
-selected_country = st.sidebar.selectbox("Select Country", group, index=None)
+selected_country = st.sidebar.selectbox("Select Country", group)
 
 st.sidebar.markdown(f"# List of {group_name}")
 
@@ -99,35 +99,6 @@ def display_chart(data, title, source):
                 st.caption(f"Source: {source}")
             else:
                 st.write("No series data available for this country")
-
-st.header(f"Data and information about the {group_name}")
-
-def display_group_indicator_card(INDICATOR):
-    st.subheader(f"{indicators[INDICATOR]['description']} · {group_name}")
-    series = compute_group_aggregate(INDICATOR,group_name.lower())
-    st.line_chart(series[0])
-
-if selected_country == None:
-
-    display_group_indicator_card("BX.KLT.DINV.WD.GD.ZS")
-    display_group_indicator_card("NY.GDP.MKTP.PP.CD")
-    display_group_indicator_card("BX.KLT.DINV.WD.GD.ZS")
-    display_group_indicator_card("NY.GDP.MKTP.PP.CD")
-    display_group_indicator_card("IT.CEL.SETS.P2")
-    display_group_indicator_card("SP.POP.TOTL")
-    display_group_indicator_card("BN.CAB.XOKA.CD")
-    display_group_indicator_card("FI.RES.TOTL.CD")
-
-
-
-
-
-
-
-
-
-
-
 
 if selected_country:
     selected_country_iso2 = get_iso2_from_name(selected_country)
