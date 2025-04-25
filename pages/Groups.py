@@ -5,7 +5,8 @@ import os
 from dotenv import load_dotenv
 import pandas as pd
 from indicators import indicators, load_indicator_country_data_from_cache
-from groups import get_group_countries_name, get_iso3_from_name, get_name_from_iso3, get_fips_from_iso3, get_iso2_from_name
+from indicators_data import categorized_indicators
+from groups import get_group_countries_name, get_iso3_from_name, get_name_from_iso3, get_fips_from_iso3, get_iso2_from_name, load_group_metadata
 from country_facts import load_country_data, load_factbook_data, country_small_flags, get_small_flag, get_country_description
 from quotes import quotes
 import random
@@ -28,7 +29,6 @@ def to_excel(df):
     # Get the Excel file contents as bytes
     excel_data = output.getvalue()
     return excel_data
-
 
 def display_chart(data, title, source):
     # Load the data for the selected country
@@ -55,8 +55,6 @@ def display_chart(data, title, source):
             else:
                 st.write("No series data available for this country")
 
-
-
 def display_group_indicator_card(INDICATOR):
     st.subheader(f"{indicators[INDICATOR]['description']} · {group_name}")
     series = compute_group_aggregate(INDICATOR,group_name.lower())
@@ -72,19 +70,31 @@ def display_group_indicator_card(INDICATOR):
         mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',  # MIME type for .xlsx files
         key=INDICATOR
     )
-
-
+    st.divider() # Add divider after each card
 
 # Create a sidebar panel with the names of all the countries in the group to display specific data on them
 group_name = st.sidebar.selectbox("Select the group of countries", ["LLDCs", "LDCs", "SIDS"])
 
 if group_name:
-    display_group_indicator_card("BX.KLT.DINV.WD.GD.ZS")
-    display_group_indicator_card("NY.GDP.MKTP.PP.CD")
-    display_group_indicator_card("BX.KLT.DINV.WD.GD.ZS")
-    display_group_indicator_card("NY.GDP.MKTP.PP.CD")
-    display_group_indicator_card("IT.CEL.SETS.P2")
-    display_group_indicator_card("SP.POP.TOTL")
-    display_group_indicator_card("BN.CAB.XOKA.CD")
-    display_group_indicator_card("FI.RES.TOTL.CD")
 
+    group_metadata = load_group_metadata(group_name)
+
+    st.header(group_name)
+    st.write(group_metadata["name"])
+    st.write(group_metadata["description"])
+
+    group = get_group_countries_name(group_name.lower())
+    group.sort()
+
+    country_names = ""
+    for country in group:
+        iso3 = get_iso3_from_name(country, group_name.lower())
+        flag = get_small_flag(iso3)
+        country_names += f"{flag}\u00A0{country}  "
+
+    st.write(country_names)
+
+    for category in categorized_indicators:
+        st.title(category)
+        for indicator in categorized_indicators[category]:
+            display_group_indicator_card(indicator)

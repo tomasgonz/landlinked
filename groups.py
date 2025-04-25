@@ -1,5 +1,6 @@
 import os
 import json
+from pathlib import Path
 
 # Load the country codes
 country_codes = []
@@ -75,6 +76,10 @@ def load_country_codes():
     with open('cache/Countrycodesfull.json', 'r', encoding='utf-8') as f:
         country_codes = json.load(f)
     return country_codes
+
+def load_group_metadata(group: str) -> dict:
+    path = Path("cache/groups") / f"{group.lower()}.json"
+    return json.loads(path.read_text())
 
 cache_folder = "cache/groups"
 

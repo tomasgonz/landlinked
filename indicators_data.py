@@ -41,7 +41,7 @@ indicators = {
         'source':      'World Bank',
         'description': 'ODA received (% of GNI)',
         'agg':         'weighted',
-        'weight_by':   'NY.GDP.MKTP.PP.CD',
+        'weight_by':   'DT.ODA.ODAT.GN.ZS',
     },
     'LP.LPI.OVRL.XQ': {
         'source':      'World Bank',
@@ -145,4 +145,44 @@ indicators = {
         'description': 'Central government debt, total (current LCU)',
         'agg':         'sum',
     },
+    'SI.POV.DDAY': {
+        'source': 'World Bank',
+        'description': 'Poverty headcount ratio at $2.15 a day (2017 PPP) (% of population)',
+        'agg': 'weighted',
+        'weight_by': 'SP.POP.TOTL'
+    },
+    'IT.NET.USER.ZS': {
+        'source':      'World Bank',
+        'description': 'Individuals using the Internet (% of population)',
+        'agg': 'weighted',
+        'weight_by': 'SP.POP.TOTL'
+    },
+    'SE.XPD.TOTL.GD.ZS': {
+        'source': 'World Bank',
+        'description': 'Government expenditure on education, total (% of GDP)',
+        'agg': 'weighted',
+        'weight_by': 'NY.GDP.MKTP.CD'
+    },
+    'EG.ELC.ACCS.ZS': {
+        'source': 'World Bank',
+        'description': 'Access to electricity (% of population)',
+        'agg': 'weighted',
+        'weight_by': 'SP.POP.TOTL'
+    }
 }
+
+# Organize codes by topic for display
+categorized_indicators = {
+    "General": ['SP.POP.TOTL', 'AG.SRF.TOTL.K2'],
+    "Economy": ['NY.GDP.MKTP.CD', 'NY.GDP.MKTP.PP.CD', 'NY.GDP.PCAP.PP.CD', 'FP.CPI.TOTL.ZG'],
+    "Trade & Finance": ['NE.EXP.GNFS.CD', 'NE.IMP.GNFS.CD', 'NE.TRD.GNFS.CD', 'BN.CAB.XOKA.CD', 'FI.RES.TOTL.CD', 'LP.LPI.OVRL.XQ', 'LP.EXP.DURS.MD'],
+    "Investment": ['BX.KLT.DINV.WD.GD.ZS', 'BM.KLT.DINV.WD.GD.ZS'],
+    "Debt & Aid": ['DT.DOD.DECT.CD', 'GC.DOD.TOTL.CN', 'DT.ODA.ODAT.GN.ZS'],
+    "Government": ['GC.TAX.IMPT.ZS', 'SE.XPD.TOTL.GD.ZS'],
+    "Social": ['SL.TLF.CACT.FM.ZS', 'SL.UEM.TOTL.ZS', 'SI.POV.DDAY', 'SH.DYN.MORT', 'SE.PRM.NENR'],
+    "Infrastructure & Technology": ['EG.ELC.ACCS.ZS', 'IT.NET.USER.ZS', 'IT.CEL.SETS.P2', 'IT.NET.BBND.P2'],
+    "Environment": ['EN.GHG.CO2.MT.CE.AR5', 'EN.GHG.CO2.PC.CE.AR5']
+}
+
+# Extract the list of all indicator codes needed for data download
+all_indicator_codes = list(indicators.keys())
