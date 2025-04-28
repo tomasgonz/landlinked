@@ -112,7 +112,7 @@ with st.sidebar:
     selected_groups = st.multiselect(
         "Select comparison groups:",
         options=available_groups,
-        default=["World", "LDCs"], # Sensible defaults
+        default=["LLDCs"], # Sensible defaults
         key="group_multi_select",
     )
 
