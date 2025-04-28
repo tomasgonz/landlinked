@@ -35,9 +35,6 @@ def query_openai_api(prompt):
 # Custom CSS for better font and spacing
 st.markdown(css_general, unsafe_allow_html=True)
 
-# Floating menu with section links
-st.markdown(css_menu,  unsafe_allow_html=True)
-
 st.sidebar.header("Data explorer")
 st.sidebar.write("by Tomas Gonzalez")
 st.sidebar.caption("*nulla dies sine linea*")

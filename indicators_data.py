@@ -1,5 +1,9 @@
+# ------------------------------------------------------------------
+# 1. Master indicator catalogue
+#    (keys = World-Bank series codes; values = metadata + aggregation)
+# ------------------------------------------------------------------
 indicators = {
-    # General
+    # -----------------------------  GENERAL  -----------------------------
     'SP.POP.TOTL': {
         'source':      'World Bank',
         'description': 'Population, total',
@@ -43,8 +47,19 @@ indicators = {
         'description': 'Land area (sq. km)',
         'agg':         'sum',
     },
+    'EN.POP.DNST': {
+        'source':      'World Bank',
+        'description': 'Population density (people / sq km of land area)',
+        'agg':         'weighted',
+        'weight_by':   'AG.LND.TOTL.K2',
+    },
 
-    # Economy
+    # ------------------------------  ECONOMY  -----------------------------
+    'NY.GDP.MKTP.CD': {
+        'source':      'World Bank',
+        'description': 'GDP (current US$)',
+        'agg':         'sum',
+    },
     'NY.GDP.MKTP.PP.CD': {
         'source':      'World Bank',
         'description': 'GDP, PPP (current international $)',
@@ -55,11 +70,6 @@ indicators = {
         'description': 'GDP per capita, PPP (current international $)',
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.PP.CD',
-    },
-    'NY.GDP.MKTP.CD': {
-        'source':       'World Bank',
-        'description':  'GDP (current US$)',
-        'agg':          'sum'
     },
     'NY.GDP.MKTP.KD.ZG': {
         'source':      'World Bank',
@@ -79,6 +89,12 @@ indicators = {
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.CD',
     },
+    'NY.ADJ.NNTY.PC.CD': {
+        'source':      'World Bank',
+        'description': 'Adjusted net national income per capita (current US$)',
+        'agg':         'weighted',
+        'weight_by':   'SP.POP.TOTL',
+    },
     'FP.CPI.TOTL.ZG': {
         'source':      'World Bank',
         'description': 'Inflation, consumer prices (annual %)',
@@ -86,23 +102,29 @@ indicators = {
     },
     'PA.NUS.FCRF': {
         'source':      'World Bank',
-        'description': 'Official exchange rate (LCU per US$, period average)',
+        'description': 'Official exchange rate (LCU / US$, period avg.)',
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.CD',
     },
-    'NY.ADJ.NNTY.PC.CD': {
+
+    # ---------------------  INEQUALITY & POVERTY  ------------------------
+    'SI.POV.DDAY': {
         'source':      'World Bank',
-        'description': 'Adjusted net national income per capita (current US$)',
+        'description': 'Poverty headcount ($2.15 / day, 2017 PPP, % of pop.)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
-
-    # Inequality & Poverty
-    'SI.POV.DDAY': {
+    'SI.POV.LMIC': {
         'source':      'World Bank',
-        'description': 'Poverty headcount ratio at $2.15 a day (2017 PPP) (% of population)',
+        'description': 'Poverty headcount ($3.65 / day, 2017 PPP, % of pop.)',
         'agg':         'weighted',
-        'weight_by':   'SP.POP.TOTL'
+        'weight_by':   'SP.POP.TOTL',
+    },
+    'SI.POV.NAHC': {
+        'source':      'World Bank',
+        'description': 'Poverty headcount at national line (% of pop.)',
+        'agg':         'weighted',
+        'weight_by':   'SP.POP.TOTL',
     },
     'SI.POV.GINI': {
         'source':      'World Bank',
@@ -112,43 +134,31 @@ indicators = {
     },
     'SI.DST.FRST.20': {
         'source':      'World Bank',
-        'description': 'Income share held by lowest 20%',
+        'description': 'Income share held by lowest 20 %',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SI.DST.10TH.10': {
         'source':      'World Bank',
-        'description': 'Income share held by highest 10%',
-        'agg':         'weighted',
-        'weight_by':   'SP.POP.TOTL',
-    },
-    'SI.POV.LMIC': {
-        'source':      'World Bank',
-        'description': 'Poverty headcount ratio at $3.65 a day (2017 PPP) (% of population)',
-        'agg':         'weighted',
-        'weight_by':   'SP.POP.TOTL',
-    },
-    'SI.POV.NAHC': {
-        'source':      'World Bank',
-        'description': 'Poverty headcount ratio at national poverty lines (% of population)',
+        'description': 'Income share held by highest 10 %',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
 
-    # Trade & Finance
+    # ------------------------  TRADE & FINANCE  --------------------------
     'NE.EXP.GNFS.CD': {
         'source':      'World Bank',
-        'description': 'Exports of goods and services (BoP, current US$)',
+        'description': 'Exports of goods & services (current US$)',
         'agg':         'sum',
     },
     'NE.IMP.GNFS.CD': {
         'source':      'World Bank',
-        'description': 'Imports of goods and services (BoP, current US$)',
+        'description': 'Imports of goods & services (current US$)',
         'agg':         'sum',
     },
     'NE.TRD.GNFS.CD': {
         'source':      'World Bank',
-        'description': 'Trade in goods and services (BoP, current US$)',
+        'description': 'Trade in goods & services (current US$)',
         'agg':         'sum',
     },
     'NE.TRD.GNFS.ZS': {
@@ -159,29 +169,29 @@ indicators = {
     },
     'BN.CAB.XOKA.CD': {
         'source':      'World Bank',
-        'description': 'Current account balance (BoP, current US$)',
+        'description': 'Current-account balance (current US$)',
         'agg':         'sum',
     },
     'BN.CAB.XOKA.GD.ZS': {
         'source':      'World Bank',
-        'description': 'Current account balance (% of GDP)',
+        'description': 'Current-account balance (% of GDP)',
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.CD',
     },
     'FI.RES.TOTL.CD': {
         'source':      'World Bank',
-        'description': 'Total reserves (includes gold, current US$)',
+        'description': 'Total reserves incl. gold (current US$)',
         'agg':         'sum',
     },
     'FI.RES.TOTL.MO': {
         'source':      'World Bank',
-        'description': 'Total reserves in months of imports',
+        'description': 'Total reserves (months of imports)',
         'agg':         'weighted',
         'weight_by':   'NE.IMP.GNFS.CD',
     },
     'LP.LPI.OVRL.XQ': {
         'source':      'World Bank',
-        'description': 'Logistics performance index: Overall (1=low to 5=high)',
+        'description': 'Logistics Performance Index (1–5)',
         'agg':         'mean',
     },
     'LP.EXP.DURS.MD': {
@@ -191,37 +201,37 @@ indicators = {
     },
     'BM.GSR.ROYL.CD': {
         'source':      'World Bank',
-        'description': 'Charges for the use of intellectual property, payments (BoP, current US$)',
+        'description': 'Royalty payments for IP (current US$)',
         'agg':         'sum',
     },
     'TX.VAL.TECH.CD': {
         'source':      'World Bank',
-        'description': 'High-technology exports (current US$)',
+        'description': 'High-tech exports (current US$)',
         'agg':         'sum',
     },
     'TX.VAL.TECH.MF.ZS': {
         'source':      'World Bank',
-        'description': 'High-technology exports (% of manufactured exports)',
+        'description': 'High-tech exports (% of manufactured exports)',
         'agg':         'weighted',
         'weight_by':   'NE.EXP.GNFS.CD',
     },
 
-    # Investment & Financial Sector
+    # -----------------  INVESTMENT & FINANCIAL SECTOR  ------------------
     'BX.KLT.DINV.WD.GD.ZS': {
         'source':      'World Bank',
-        'description': 'FDI, net inflows (% of GDP)',
+        'description': 'FDI net inflows (% of GDP)',
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.PP.CD',
     },
     'BM.KLT.DINV.WD.GD.ZS': {
         'source':      'World Bank',
-        'description': 'FDI, net outflows (% of GDP)',
+        'description': 'FDI net outflows (% of GDP)',
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.PP.CD',
     },
     'BX.KLT.DINV.CD.WD': {
         'source':      'World Bank',
-        'description': 'Foreign direct investment, net inflows (BoP, current US$)',
+        'description': 'FDI net inflows (current US$)',
         'agg':         'sum',
     },
     'NE.GDI.TOTL.ZS': {
@@ -238,18 +248,18 @@ indicators = {
     },
     'CM.MKT.LCAP.CD': {
         'source':      'World Bank',
-        'description': 'Market capitalization of listed domestic companies (current US$)',
+        'description': 'Market cap. of listed firms (current US$)',
         'agg':         'sum',
     },
     'CM.MKT.LCAP.GD.ZS': {
         'source':      'World Bank',
-        'description': 'Market capitalization of listed domestic companies (% of GDP)',
+        'description': 'Market cap. of listed firms (% of GDP)',
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.CD',
     },
     'FB.CBK.BRCH.P5': {
         'source':      'World Bank',
-        'description': 'Commercial bank branches (per 100,000 adults)',
+        'description': 'Commercial bank branches (per 100 k adults)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
@@ -266,7 +276,7 @@ indicators = {
         'weight_by':   'NY.GDP.MKTP.CD',
     },
 
-    # Debt & Aid
+    # -------------------------  DEBT & AID  -----------------------------
     'DT.DOD.DECT.CD': {
         'source':      'World Bank',
         'description': 'External debt stocks, total (current US$)',
@@ -286,12 +296,12 @@ indicators = {
     },
     'GC.DOD.TOTL.CN': {
         'source':      'World Bank',
-        'description': 'Central government debt, total (current LCU)',
+        'description': 'Central-govt. debt, total (current LCU)',
         'agg':         'sum',
     },
     'GC.DOD.TOTL.GD.ZS': {
         'source':      'World Bank',
-        'description': 'Central government debt, total (% of GDP)',
+        'description': 'Central-govt. debt, total (% of GDP)',
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.CD',
     },
@@ -299,11 +309,11 @@ indicators = {
         'source':      'World Bank',
         'description': 'ODA received (% of GNI)',
         'agg':         'weighted',
-        'weight_by':   'DT.ODA.ODAT.GN.ZS',
+        'weight_by':   'NY.GDP.MKTP.CD',
     },
     'DT.ODA.ALLD.CD': {
         'source':      'World Bank',
-        'description': 'Net official development assistance and official aid received (current US$)',
+        'description': 'Net ODA & official aid (current US$)',
         'agg':         'sum',
     },
     'DT.ODA.ODAT.PC.ZS': {
@@ -314,11 +324,11 @@ indicators = {
     },
     'BX.TRF.PWKR.CD.DT': {
         'source':      'World Bank',
-        'description': 'Personal remittances, received (current US$)',
+        'description': 'Personal remittances received (current US$)',
         'agg':         'sum',
     },
 
-    # Government & Public Sector
+    # ------------------  GOVERNMENT & GOVERNANCE  -----------------------
     'GC.TAX.TOTL.GD.ZS': {
         'source':      'World Bank',
         'description': 'Tax revenue (% of GDP)',
@@ -327,7 +337,7 @@ indicators = {
     },
     'GC.TAX.IMPT.ZS': {
         'source':      'World Bank',
-        'description': 'Tax revenue (% of GDP)',
+        'description': 'Taxes on imports (% of GDP)',
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.PP.CD',
     },
@@ -343,189 +353,175 @@ indicators = {
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.CD',
     },
-    'IC.BUS.EASE.XQ': {
-        'source':      'World Bank',
-        'description': 'Ease of doing business score (0 = lowest, 100 = best)',
-        'agg':         'weighted',
-        'weight_by':   'NY.GDP.MKTP.CD',
-    },
-    'IC.REG.DURS': {
-        'source':      'World Bank',
-        'description': 'Time required to start a business (days)',
-        'agg':         'weighted',
-        'weight_by':   'NY.GDP.MKTP.CD',
-    },
-
-    # Governance Indicators
     'VA.EST': {
         'source':      'World Bank',
-        'description': 'Voice and Accountability: Estimate',
+        'description': 'Voice & Accountability (estimate)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'PV.EST': {
         'source':      'World Bank',
-        'description': 'Political Stability and Absence of Violence: Estimate',
+        'description': 'Political Stability / No Violence (estimate)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'GE.EST': {
         'source':      'World Bank',
-        'description': 'Government Effectiveness: Estimate',
+        'description': 'Government Effectiveness (estimate)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'RQ.EST': {
         'source':      'World Bank',
-        'description': 'Regulatory Quality: Estimate',
+        'description': 'Regulatory Quality (estimate)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'RL.EST': {
         'source':      'World Bank',
-        'description': 'Rule of Law: Estimate',
+        'description': 'Rule of Law (estimate)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'CC.EST': {
         'source':      'World Bank',
-        'description': 'Control of Corruption: Estimate',
+        'description': 'Control of Corruption (estimate)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
 
-    # Social - Education
+    # ---------------------------  EDUCATION  ----------------------------
     'SE.PRM.NENR': {
         'source':      'World Bank',
-        'description': 'School enrollment, primary (% net)',
+        'description': 'Primary school enrollment (% net)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SE.SEC.NENR': {
         'source':      'World Bank',
-        'description': 'School enrollment, secondary (% net)',
+        'description': 'Secondary school enrollment (% net)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SE.TER.ENRR': {
         'source':      'World Bank',
-        'description': 'School enrollment, tertiary (% gross)',
+        'description': 'Tertiary enrollment (% gross)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SE.XPD.TOTL.GD.ZS': {
         'source':      'World Bank',
-        'description': 'Government expenditure on education, total (% of GDP)',
+        'description': 'Government education outlays (% of GDP)',
         'agg':         'weighted',
-        'weight_by':   'NY.GDP.MKTP.CD'
+        'weight_by':   'NY.GDP.MKTP.CD',
     },
     'SE.ADT.LITR.ZS': {
         'source':      'World Bank',
-        'description': 'Literacy rate, adult total (% of people ages 15 and above)',
+        'description': 'Adult literacy rate (%% ages 15+)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SE.ADT.LITR.FE.ZS': {
         'source':      'World Bank',
-        'description': 'Literacy rate, adult female (% of females ages 15 and above)',
+        'description': 'Adult literacy, female (%% ages 15+)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SE.PRM.CMPT.ZS': {
         'source':      'World Bank',
-        'description': 'Primary completion rate, total (% of relevant age group)',
+        'description': 'Primary completion rate (%% of cohort)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SE.PRM.ENRR.FE': {
         'source':      'World Bank',
-        'description': 'School enrollment, primary, female (% gross)',
+        'description': 'Primary enrollment, female (%% gross)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
 
-    # Social - Health
+    # ----------------------------  HEALTH  ------------------------------
     'SH.DYN.MORT': {
         'source':      'World Bank',
-        'description': 'Mortality rate, under-5 (per 1,000 live births)',
+        'description': 'Under-5 mortality (per 1 000 births)',
         'agg':         'mean',
     },
     'SH.DYN.NMRT': {
         'source':      'World Bank',
-        'description': 'Mortality rate, neonatal (per 1,000 live births)',
+        'description': 'Neonatal mortality (per 1 000 births)',
         'agg':         'mean',
     },
     'SH.STA.MMRT': {
         'source':      'World Bank',
-        'description': 'Maternal mortality ratio (modeled estimate, per 100,000 live births)',
+        'description': 'Maternal mortality ratio (per 100 000 births)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SH.XPD.CHEX.GD.ZS': {
         'source':      'World Bank',
-        'description': 'Current health expenditure (% of GDP)',
+        'description': 'Current health outlays (% of GDP)',
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.CD',
     },
     'SH.XPD.CHEX.PC.CD': {
         'source':      'World Bank',
-        'description': 'Current health expenditure per capita (current US$)',
+        'description': 'Health expenditure per capita (current US$)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SH.IMM.MEAS': {
         'source':      'World Bank',
-        'description': 'Immunization, measles (% of children ages 12-23 months)',
+        'description': 'Measles immunization (%% of children)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SH.MED.PHYS.ZS': {
         'source':      'World Bank',
-        'description': 'Physicians (per 1,000 people)',
+        'description': 'Physicians (per 1 000 people)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SH.MED.BEDS.ZS': {
         'source':      'World Bank',
-        'description': 'Hospital beds (per 1,000 people)',
+        'description': 'Hospital beds (per 1 000 people)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SH.HIV.INCD.ZS': {
         'source':      'World Bank',
-        'description': 'Incidence of HIV (% of uninfected population ages 15-49)',
+        'description': 'HIV incidence (%% ages 15-49)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SH.STA.DIAB.ZS': {
         'source':      'World Bank',
-        'description': 'Diabetes prevalence (% of population ages 20 to 79)',
+        'description': 'Diabetes prevalence (%% ages 20-79)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
 
-    # Social - Labor & Employment
+    # ---------------------  LABOUR / EMPLOYMENT  ------------------------
     'SL.TLF.CACT.FM.ZS': {
         'source':      'World Bank',
-        'description': 'Female labor force participation (% ages 15+)',
+        'description': 'Female labour-force participation (%% 15+)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SL.UEM.TOTL.ZS': {
         'source':      'World Bank',
-        'description': 'Unemployment, total (% of labor force)',
+        'description': 'Unemployment (%% of labour force)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SL.UEM.1524.ZS': {
         'source':      'World Bank',
-        'description': 'Unemployment, youth total (% of total labor force ages 15-24)',
+        'description': 'Youth unemployment (%% ages 15-24)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SL.EMP.TOTL.SP.ZS': {
         'source':      'World Bank',
-        'description': 'Employment to population ratio, 15+, total (%)',
+        'description': 'Employment-to-population ratio (%%, 15+)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
@@ -537,84 +533,72 @@ indicators = {
     },
     'SL.TLF.TOTL.IN': {
         'source':      'World Bank',
-        'description': 'Labor force, total',
+        'description': 'Labour force, total',
         'agg':         'sum',
     },
     'SL.AGR.EMPL.ZS': {
         'source':      'World Bank',
-        'description': 'Employment in agriculture (% of total employment)',
+        'description': 'Employment in agriculture (%% of total)',
         'agg':         'weighted',
         'weight_by':   'SL.TLF.TOTL.IN',
     },
     'SL.IND.EMPL.ZS': {
         'source':      'World Bank',
-        'description': 'Employment in industry (% of total employment)',
+        'description': 'Employment in industry (%% of total)',
         'agg':         'weighted',
         'weight_by':   'SL.TLF.TOTL.IN',
     },
     'SL.SRV.EMPL.ZS': {
         'source':      'World Bank',
-        'description': 'Employment in services (% of total employment)',
+        'description': 'Employment in services (%% of total)',
         'agg':         'weighted',
         'weight_by':   'SL.TLF.TOTL.IN',
     },
 
-    # Social - Gender
+    # ----------------------------  GENDER  ------------------------------
     'SG.GEN.PARL.ZS': {
         'source':      'World Bank',
-        'description': 'Proportion of seats held by women in national parliaments (%)',
+        'description': 'Parliament seats held by women (%%)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SG.LAW.INDX': {
         'source':      'World Bank',
-        'description': 'Women Business and the Law Index Score (1-100)',
+        'description': 'Women, Business & Law Index (1–100)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SP.DYN.SMAM.FE': {
         'source':      'World Bank',
-        'description': 'Age at first marriage, female',
+        'description': 'Mean age at first marriage – women',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SP.DYN.TFRT.IN': {
         'source':      'World Bank',
-        'description': 'Fertility rate, total (births per woman)',
+        'description': 'Total fertility rate (births / woman)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SG.VAW.ARGU.ZS': {
         'source':      'World Bank',
-        'description': 'Women who believe a husband is justified in beating his wife when she argues with him (%)',
-        'agg':         'weighted',
-        'weight_by':   'SP.POP.TOTL',
-    },
-    'SG.GEN.LMGP.MS.ZS': {
-        'source':      'World Bank',
-        'description': 'Firms with female top manager (% of firms)',
-        'agg':         'weighted',
-        'weight_by':   'NY.GDP.MKTP.CD',
-    },
-    'SG.GEN.PARL.ZS': {
-        'source':      'World Bank',
-        'description': 'Proportion of seats held by women in national parliaments (%)',
+        'description': 'Women who justify wife-beating when argued with husband (%%)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
 
-    # Infrastructure & Technology
+    # ------------------  INFRASTRUCTURE & TECHNOLOGY  ------------------
     'EG.ELC.ACCS.ZS': {
         'source':      'World Bank',
-        'description': 'Access to electricity (% of population)',
+        'description': 'Access to electricity (%% of population)',
         'agg':         'weighted',
-        'weight_by':   'SP.POP.TOTL'
+        'weight_by':   'SP.POP.TOTL',
     },
     'IT.NET.USER.ZS': {
         'source':      'World Bank',
-        'description': 'Individuals using the Internet (% of population)',
+        'description': 'Internet users (%% of population)',
         'agg':         'weighted',
-        'weight_by':   'SP.POP.TOTL'
+        'weight_by':   'SP.POP.TOTL',
     },
     'IT.CEL.SETS.P2': {
         'source':      'World Bank',
@@ -630,191 +614,164 @@ indicators = {
     },
     'IS.RRS.TOTL.KM': {
         'source':      'World Bank',
-        'description': 'Rail lines (total route-km)',
+        'description': 'Rail lines (route-km)',
         'agg':         'sum',
     },
     'IS.ROD.TOTL.KM': {
         'source':      'World Bank',
-        'description': 'Roads, total network (km)',
+        'description': 'Road network length (km)',
         'agg':         'sum',
     },
     'IS.ROD.PAVE.ZS': {
         'source':      'World Bank',
-        'description': 'Roads, paved (% of total roads)',
+        'description': 'Roads paved (%% of total)',
         'agg':         'weighted',
         'weight_by':   'IS.ROD.TOTL.KM',
     },
     'IS.AIR.PSGR': {
         'source':      'World Bank',
-        'description': 'Air transport, passengers carried',
+        'description': 'Air passengers carried',
         'agg':         'sum',
     },
     'IT.NET.SECR.P6': {
         'source':      'World Bank',
-        'description': 'Secure Internet servers (per 1 million people)',
-        'agg':         'weighted',
-        'weight_by':   'SP.POP.TOTL',
-    },
-    'IQ.SCI.OVRL': {
-        'source':      'World Bank',
-        'description': 'Statistical Capacity score (Overall average)',
+        'description': 'Secure Internet servers (per 1 M people)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
 
-    # Energy
+    # ------------------------------  ENERGY  ----------------------------
     'EG.USE.PCAP.KG.OE': {
         'source':      'World Bank',
-        'description': 'Energy use (kg of oil equivalent per capita)',
+        'description': 'Energy use (kg oil eq. per capita)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
-    },
-    'EG.ELC.PROD.KH': {
-        'source':      'World Bank',
-        'description': 'Electricity production (kWh)',
-        'agg':         'sum',
     },
     'EG.ELC.COAL.ZS': {
         'source':      'World Bank',
-        'description': 'Electricity production from coal sources (% of total)',
+        'description': 'Electricity from coal sources (%% of total)',
         'agg':         'weighted',
-        'weight_by':   'EG.ELC.PROD.KH',
+        'weight_by':   'SP.POP.TOTL',
     },
     'EG.ELC.NUCL.ZS': {
         'source':      'World Bank',
-        'description': 'Electricity production from nuclear sources (% of total)',
+        'description': 'Electricity from nuclear sources (%% of total)',
         'agg':         'weighted',
-        'weight_by':   'EG.ELC.PROD.KH',
+        'weight_by':   'SP.POP.TOTL',
     },
     'EG.ELC.RNWX.ZS': {
         'source':      'World Bank',
-        'description': 'Electricity production from renewable sources, excluding hydroelectric (% of total)',
+        'description': 'Electricity from renewables excl. hydro (%% of total)',
         'agg':         'weighted',
-        'weight_by':   'EG.ELC.PROD.KH',
+        'weight_by':   'SP.POP.TOTL',
     },
     'EG.ELC.HYRO.ZS': {
         'source':      'World Bank',
-        'description': 'Electricity production from hydroelectric sources (% of total)',
+        'description': 'Electricity from hydro sources (%% of total)',
         'agg':         'weighted',
-        'weight_by':   'EG.ELC.PROD.KH',
+        'weight_by':   'SP.POP.TOTL',
     },
     'EG.ELC.LOSS.ZS': {
         'source':      'World Bank',
-        'description': 'Electric power transmission and distribution losses (% of output)',
+        'description': 'Power transmission & distribution losses (%% of output)',
         'agg':         'weighted',
-        'weight_by':   'EG.ELC.PROD.KH',
+        'weight_by':   'SP.POP.TOTL',
     },
     'EG.FEC.RNEW.ZS': {
         'source':      'World Bank',
-        'description': 'Renewable energy consumption (% of total final energy consumption)',
+        'description': 'Renewable energy consumption (%% of final use)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
 
-    # Environment & Climate
-    'EN.GHG.CO2.PC.CE.AR5': {
-        'source':      'World Bank',
-        'description': 'CO₂ emissions per capita (t CO₂e/capita)',
-        'agg':         'weighted',
-        'weight_by':   'SP.POP.TOTL',
-    },
+    # --------------------  ENVIRONMENT & CLIMATE  -----------------------
     'EN.GHG.CO2.MT.CE.AR5': {
         'source':      'World Bank',
-        'description': 'Total CO₂ emissions (Mt CO₂e)',
+        'description': 'Total CO₂ emissions (Mt CO₂-eq, AR5)',
         'agg':         'sum',
+    },
+    'EN.GHG.CO2.PC.CE.AR5': {
+        'source':      'World Bank',
+        'description': 'CO₂ emissions per capita (t CO₂-eq, AR5)',
+        'agg':         'weighted',
+        'weight_by':   'SP.POP.TOTL',
     },
     'EN.ATM.PM25.MC.M3': {
         'source':      'World Bank',
-        'description': 'PM2.5 air pollution, mean annual exposure (micrograms per cubic meter)',
+        'description': 'PM 2.5, mean exposure (µg / m³)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
-    'EN.ATM.METH.KT.CE': {
-        'source':      'World Bank',
-        'description': 'Methane emissions (kt of CO2 equivalent)',
-        'agg':         'sum',
-    },
-    'EN.CLC.GHGR.MT.CE': {
-        'source':      'World Bank',
-        'description': 'Total greenhouse gas emissions (kt of CO2 equivalent)',
-        'agg':         'sum',
-    },
     'ER.PTD.TOTL.ZS': {
         'source':      'World Bank',
-        'description': 'Terrestrial and marine protected areas (% of total territorial area)',
+        'description': 'Protected areas (%% of territory)',
         'agg':         'weighted',
         'weight_by':   'AG.SRF.TOTL.K2',
     },
     'AG.LND.FRST.ZS': {
         'source':      'World Bank',
-        'description': 'Forest area (% of land area)',
+        'description': 'Forest area (%% of land)',
         'agg':         'weighted',
         'weight_by':   'AG.LND.TOTL.K2',
     },
     'ER.H2O.FWTL.ZS': {
         'source':      'World Bank',
-        'description': 'Annual freshwater withdrawals, total (% of internal resources)',
+        'description': 'Freshwater withdrawals (%% of resources)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'ER.H2O.FWST.ZS': {
         'source':      'World Bank',
-        'description': 'Level of water stress: freshwater withdrawal as a proportion of available freshwater resources',
+        'description': 'Water stress (withdrawal / available, %%)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
-    'EN.POP.DNST': {
-        'source':      'World Bank',
-        'description': 'Population density (people per sq. km of land area)',
-        'agg':         'weighted',
-        'weight_by':   'AG.LND.TOTL.K2',
-    },
 
-    # Agriculture
+    # ---------------------------  AGRICULTURE  --------------------------
     'AG.LND.AGRI.ZS': {
         'source':      'World Bank',
-        'description': 'Agricultural land (% of land area)',
+        'description': 'Agricultural land (%% of land area)',
         'agg':         'weighted',
         'weight_by':   'AG.LND.TOTL.K2',
     },
     'AG.LND.CROP.ZS': {
         'source':      'World Bank',
-        'description': 'Arable land (% of land area)',
+        'description': 'Arable land (%% of land area)',
         'agg':         'weighted',
         'weight_by':   'AG.LND.TOTL.K2',
     },
     'AG.YLD.CREL.KG': {
         'source':      'World Bank',
-        'description': 'Cereal yield (kg per hectare)',
+        'description': 'Cereal yield (kg / ha)',
         'agg':         'weighted',
         'weight_by':   'AG.LND.CROP.ZS',
     },
     'AG.PRD.FOOD.XD': {
         'source':      'World Bank',
-        'description': 'Food production index (2014-2016 = 100)',
+        'description': 'Food Production Index (2014-16 = 100)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'AG.CON.FERT.ZS': {
         'source':      'World Bank',
-        'description': 'Fertilizer consumption (kilograms per hectare of arable land)',
+        'description': 'Fertilizer use (kg / ha arable)',
         'agg':         'weighted',
         'weight_by':   'AG.LND.CROP.ZS',
     },
     'AG.LND.IRIG.AG.ZS': {
         'source':      'World Bank',
-        'description': 'Agricultural irrigated land (% of total agricultural land)',
+        'description': 'Irrigated land (%% of agricultural land)',
         'agg':         'weighted',
         'weight_by':   'AG.LND.AGRI.ZS',
     },
     'NV.AGR.TOTL.ZS': {
         'source':      'World Bank',
-        'description': 'Agriculture, forestry, and fishing, value added (% of GDP)',
+        'description': 'Agriculture, forestry & fishing VA (%% of GDP)',
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.CD',
     },
 
-    # Urban Development
+    # -----------------------  URBAN DEVELOPMENT  ------------------------
     'SP.URB.GROW': {
         'source':      'World Bank',
         'description': 'Urban population growth (annual %)',
@@ -828,61 +785,55 @@ indicators = {
     },
     'EN.URB.LCTY.UR.ZS': {
         'source':      'World Bank',
-        'description': 'Population in the largest city (% of urban population)',
+        'description': 'Largest-city population (%% of urban)',
         'agg':         'weighted',
         'weight_by':   'SP.URB.TOTL',
     },
     'EN.URB.MCTY': {
         'source':      'World Bank',
-        'description': 'Population in urban agglomerations of more than 1 million',
+        'description': 'Population in ≥1 M agglomerations',
         'agg':         'sum',
     },
     'EN.URB.MCTY.TL.ZS': {
         'source':      'World Bank',
-        'description': 'Population in urban agglomerations of more than 1 million (% of total population)',
+        'description': 'Population in ≥1 M agglomerations (%% of total)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'EN.POP.SLUM.UR.ZS': {
         'source':      'World Bank',
-        'description': 'Population living in slums (% of urban population)',
+        'description': 'Population in slums (%% of urban pop.)',
         'agg':         'weighted',
         'weight_by':   'SP.URB.TOTL',
     },
 
-    # Water, Sanitation & Waste
+    # ------------------  WATER, SANITATION & WASTE  ---------------------
     'SH.H2O.SMDW.ZS': {
         'source':      'World Bank',
-        'description': 'People using safely managed drinking water services (% of population)',
+        'description': 'Safely managed drinking water (%% of pop.)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SH.STA.SMSS.ZS': {
         'source':      'World Bank',
-        'description': 'People using safely managed sanitation services (% of population)',
+        'description': 'Safely managed sanitation (%% of pop.)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SH.H2O.BASW.ZS': {
         'source':      'World Bank',
-        'description': 'People using at least basic drinking water services (% of population)',
+        'description': 'Basic drinking water (%% of pop.)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
     'SH.STA.BASS.ZS': {
         'source':      'World Bank',
-        'description': 'People using at least basic sanitation services (% of population)',
+        'description': 'Basic sanitation (%% of pop.)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
-    'EN.POP.DNST': {
-        'source':      'World Bank',
-        'description': 'Population density (people per sq. km of land area)',
-        'agg':         'weighted',
-        'weight_by':   'AG.LND.TOTL.K2',
-    },
 
-    # Science & Innovation
+    # --------------------  SCIENCE & INNOVATION  ------------------------
     'IP.PAT.RESD': {
         'source':      'World Bank',
         'description': 'Patent applications, residents',
@@ -890,17 +841,17 @@ indicators = {
     },
     'IP.PAT.NRES': {
         'source':      'World Bank',
-        'description': 'Patent applications, nonresidents',
+        'description': 'Patent applications, non-residents',
         'agg':         'sum',
     },
     'IP.JRN.ARTC.SC': {
         'source':      'World Bank',
-        'description': 'Scientific and technical journal articles',
+        'description': 'Scientific & technical journal articles',
         'agg':         'sum',
     },
     'GB.XPD.RSDV.GD.ZS': {
         'source':      'World Bank',
-        'description': 'Research and development expenditure (% of GDP)',
+        'description': 'R&D expenditure (% of GDP)',
         'agg':         'weighted',
         'weight_by':   'NY.GDP.MKTP.CD',
     },
@@ -909,221 +860,119 @@ indicators = {
         'description': 'Researchers in R&D (per million people)',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
-    },
-    'IP.TMK.TOTL': {
-        'source':      'World Bank',
-        'description': 'Trademark applications, total',
-        'agg':         'sum',
     }
 }
 
+# ------------------------------------------------------------------
+# 2. Indicator category mapping (lists must reference existing codes)
+# ------------------------------------------------------------------
 categorized_indicators = {
     "General": [
-        'SP.POP.TOTL',         # Population, total
-        'SP.POP.GROW',         # Population growth (annual %)
-        'SP.URB.TOTL',         # Urban population
-        'SP.URB.TOTL.IN.ZS',   # Urban population (% of total)
-        'SP.RUR.TOTL',         # Rural population
-        'SP.DYN.LE00.IN',      # Life expectancy at birth, total (years)
-        'AG.SRF.TOTL.K2',      # Surface area (sq. km)
-        'AG.LND.TOTL.K2',      # Land area (sq. km)
-        'EN.POP.DNST'          # Population density (people per sq. km of land area)
+        'SP.POP.TOTL', 'SP.POP.GROW', 'SP.URB.TOTL', 'SP.URB.TOTL.IN.ZS',
+        'SP.RUR.TOTL', 'SP.DYN.LE00.IN', 'AG.SRF.TOTL.K2', 'AG.LND.TOTL.K2',
+        'EN.POP.DNST'
     ],
 
     "Economy": [
-        'NY.GDP.MKTP.CD',       # GDP (current US$)
-        'NY.GDP.MKTP.PP.CD',    # GDP, PPP (current international $)
-        'NY.GDP.PCAP.PP.CD',    # GDP per capita, PPP (current international $)
-        'NY.GDP.MKTP.KD.ZG',    # GDP growth (annual %)
-        'NY.GDP.PCAP.CD',       # GDP per capita (current US$)
-        'NY.GNP.PCAP.PP.CD',    # GNI per capita, PPP (current international $)
-        'NY.ADJ.NNTY.PC.CD',    # Adjusted net national income per capita (current US$)
-        'FP.CPI.TOTL.ZG',       # Inflation, consumer prices (annual %)
-        'PA.NUS.FCRF'           # Official exchange rate (LCU per US$, period average)
+        'NY.GDP.MKTP.CD', 'NY.GDP.MKTP.PP.CD', 'NY.GDP.PCAP.PP.CD',
+        'NY.GDP.MKTP.KD.ZG', 'NY.GDP.PCAP.CD', 'NY.GNP.PCAP.PP.CD',
+        'NY.ADJ.NNTY.PC.CD', 'FP.CPI.TOTL.ZG', 'PA.NUS.FCRF'
     ],
 
     "Inequality & Poverty": [
-        'SI.POV.DDAY',          # Poverty headcount ratio at $2.15 a day (2017 PPP) (% of population)
-        'SI.POV.LMIC',          # Poverty headcount ratio at $3.65 a day (2017 PPP) (% of population)
-        'SI.POV.NAHC',          # Poverty headcount ratio at national poverty lines (% of population)
-        'SI.POV.GINI',          # Gini index
-        'SI.DST.FRST.20',       # Income share held by lowest 20%
-        'SI.DST.10TH.10'        # Income share held by highest 10%
+        'SI.POV.DDAY', 'SI.POV.LMIC', 'SI.POV.NAHC',
+        'SI.POV.GINI', 'SI.DST.FRST.20', 'SI.DST.10TH.10'
     ],
 
     "Trade & Finance": [
-        'NE.EXP.GNFS.CD',       # Exports of goods and services (BoP, current US$)
-        'NE.IMP.GNFS.CD',       # Imports of goods and services (BoP, current US$)
-        'NE.TRD.GNFS.CD',       # Trade in goods and services (BoP, current US$)
-        'NE.TRD.GNFS.ZS',       # Trade (% of GDP)
-        'BN.CAB.XOKA.CD',       # Current account balance (BoP, current US$)
-        'BN.CAB.XOKA.GD.ZS',    # Current account balance (% of GDP)
-        'FI.RES.TOTL.CD',       # Total reserves (includes gold, current US$)
-        'FI.RES.TOTL.MO',       # Total reserves in months of imports
-        'LP.LPI.OVRL.XQ',       # Logistics performance index: Overall (1=low to 5=high)
-        'LP.EXP.DURS.MD',       # Time to export, median case (days)
-        'BM.GSR.ROYL.CD',       # Charges for the use of intellectual property, payments (BoP, current US$)
-        'TX.VAL.TECH.CD',       # High-technology exports (current US$)
-        'TX.VAL.TECH.MF.ZS'     # High-technology exports (% of manufactured exports)
+        'NE.EXP.GNFS.CD', 'NE.IMP.GNFS.CD', 'NE.TRD.GNFS.CD', 'NE.TRD.GNFS.ZS',
+        'BN.CAB.XOKA.CD', 'BN.CAB.XOKA.GD.ZS', 'FI.RES.TOTL.CD', 'FI.RES.TOTL.MO',
+        'LP.LPI.OVRL.XQ', 'LP.EXP.DURS.MD', 'BM.GSR.ROYL.CD',
+        'TX.VAL.TECH.CD', 'TX.VAL.TECH.MF.ZS'
     ],
 
     "Investment & Financial Sector": [
-        'BX.KLT.DINV.WD.GD.ZS',  # FDI, net inflows (% of GDP)
-        'BM.KLT.DINV.WD.GD.ZS',  # FDI, net outflows (% of GDP)
-        'BX.KLT.DINV.CD.WD',     # Foreign direct investment, net inflows (BoP, current US$)
-        'NE.GDI.TOTL.ZS',        # Gross capital formation (% of GDP)
-        'FS.AST.PRVT.GD.ZS',     # Domestic credit to private sector (% of GDP)
-        'CM.MKT.LCAP.CD',        # Market capitalization of listed domestic companies (current US$)
-        'CM.MKT.LCAP.GD.ZS',     # Market capitalization of listed domestic companies (% of GDP)
-        'FB.CBK.BRCH.P5',        # Commercial bank branches (per 100,000 adults)
-        'FR.INR.LEND',           # Lending interest rate (%)
-        'FR.INR.RINR'            # Real interest rate (%)
+        'BX.KLT.DINV.WD.GD.ZS', 'BM.KLT.DINV.WD.GD.ZS', 'BX.KLT.DINV.CD.WD',
+        'NE.GDI.TOTL.ZS', 'FS.AST.PRVT.GD.ZS', 'CM.MKT.LCAP.CD',
+        'CM.MKT.LCAP.GD.ZS', 'FB.CBK.BRCH.P5', 'FR.INR.LEND', 'FR.INR.RINR'
     ],
 
     "Debt & Aid": [
-        'DT.DOD.DECT.CD',        # External debt stocks, total (current US$)
-        'DT.DOD.DECT.GN.ZS',     # External debt stocks (% of GNI)
-        'DT.TDS.DECT.GN.ZS',     # Total debt service (% of GNI)
-        'GC.DOD.TOTL.CN',        # Central government debt, total (current LCU)
-        'GC.DOD.TOTL.GD.ZS',     # Central government debt, total (% of GDP)
-        'DT.ODA.ODAT.GN.ZS',     # ODA received (% of GNI)
-        'DT.ODA.ALLD.CD',        # Net official development assistance and official aid received (current US$)
-        'DT.ODA.ODAT.PC.ZS',     # Net ODA received per capita (current US$)
-        'BX.TRF.PWKR.CD.DT'      # Personal remittances, received (current US$)
+        'DT.DOD.DECT.CD', 'DT.DOD.DECT.GN.ZS', 'DT.TDS.DECT.GN.ZS',
+        'GC.DOD.TOTL.CN', 'GC.DOD.TOTL.GD.ZS', 'DT.ODA.ODAT.GN.ZS',
+        'DT.ODA.ALLD.CD', 'DT.ODA.ODAT.PC.ZS', 'BX.TRF.PWKR.CD.DT'
     ],
 
     "Government & Governance": [
-        'GC.TAX.TOTL.GD.ZS',     # Tax revenue (% of GDP)
-        'GC.TAX.IMPT.ZS',        # Tax revenue (% of GDP)
-        'GC.XPN.TOTL.GD.ZS',     # Government expenditure (% of GDP)
-        'MS.MIL.XPND.GD.ZS',     # Military expenditure (% of GDP)
-        'IC.BUS.EASE.XQ',        # Ease of doing business score (0 = lowest, 100 = best)
-        'IC.REG.DURS',           # Time required to start a business (days)
-        'VA.EST',                # Voice and Accountability: Estimate
-        'PV.EST',                # Political Stability and Absence of Violence: Estimate
-        'GE.EST',                # Government Effectiveness: Estimate
-        'RQ.EST',                # Regulatory Quality: Estimate
-        'RL.EST',                # Rule of Law: Estimate
-        'CC.EST'                 # Control of Corruption: Estimate
+        'GC.TAX.TOTL.GD.ZS', 'GC.TAX.IMPT.ZS', 'GC.XPN.TOTL.GD.ZS',
+        'MS.MIL.XPND.GD.ZS', 'VA.EST', 'PV.EST', 'GE.EST',
+        'RQ.EST', 'RL.EST', 'CC.EST'
     ],
 
     "Education": [
-        'SE.PRM.NENR',           # School enrollment, primary (% net)
-        'SE.SEC.NENR',           # School enrollment, secondary (% net)
-        'SE.TER.ENRR',           # School enrollment, tertiary (% gross)
-        'SE.XPD.TOTL.GD.ZS',     # Government expenditure on education, total (% of GDP)
-        'SE.ADT.LITR.ZS',        # Literacy rate, adult total (% of people ages 15 and above)
-        'SE.ADT.LITR.FE.ZS',     # Literacy rate, adult female (% of females ages 15 and above)
-        'SE.PRM.CMPT.ZS',        # Primary completion rate, total (% of relevant age group)
-        'SE.PRM.ENRR.FE'         # School enrollment, primary, female (% gross)
+        'SE.PRM.NENR', 'SE.SEC.NENR', 'SE.TER.ENRR', 'SE.XPD.TOTL.GD.ZS',
+        'SE.ADT.LITR.ZS', 'SE.ADT.LITR.FE.ZS', 'SE.PRM.CMPT.ZS', 'SE.PRM.ENRR.FE'
     ],
 
     "Health": [
-        'SH.DYN.MORT',           # Mortality rate, under-5 (per 1,000 live births)
-        'SH.DYN.NMRT',           # Mortality rate, neonatal (per 1,000 live births)
-        'SH.STA.MMRT',           # Maternal mortality ratio (modeled estimate, per 100,000 live births)
-        'SH.XPD.CHEX.GD.ZS',     # Current health expenditure (% of GDP)
-        'SH.XPD.CHEX.PC.CD',     # Current health expenditure per capita (current US$)
-        'SH.IMM.MEAS',           # Immunization, measles (% of children ages 12-23 months)
-        'SH.MED.PHYS.ZS',        # Physicians (per 1,000 people)
-        'SH.MED.BEDS.ZS',        # Hospital beds (per 1,000 people)
-        'SH.HIV.INCD.ZS',        # Incidence of HIV (% of uninfected population ages 15-49)
-        'SH.STA.DIAB.ZS'         # Diabetes prevalence (% of population ages 20 to 79)
+        'SH.DYN.MORT', 'SH.DYN.NMRT', 'SH.STA.MMRT', 'SH.XPD.CHEX.GD.ZS',
+        'SH.XPD.CHEX.PC.CD', 'SH.IMM.MEAS', 'SH.MED.PHYS.ZS',
+        'SH.MED.BEDS.ZS', 'SH.HIV.INCD.ZS', 'SH.STA.DIAB.ZS'
     ],
 
     "Labor & Employment": [
-        'SL.TLF.CACT.FM.ZS',     # Female labor force participation (% ages 15+)
-        'SL.UEM.TOTL.ZS',        # Unemployment, total (% of labor force)
-        'SL.UEM.1524.ZS',        # Unemployment, youth total (% of total labor force ages 15-24)
-        'SL.EMP.TOTL.SP.ZS',     # Employment to population ratio, 15+, total (%)
-        'SL.GDP.PCAP.EM.KD',     # GDP per person employed (constant 2017 PPP $)
-        'SL.TLF.TOTL.IN',        # Labor force, total
-        'SL.AGR.EMPL.ZS',        # Employment in agriculture (% of total employment)
-        'SL.IND.EMPL.ZS',        # Employment in industry (% of total employment)
-        'SL.SRV.EMPL.ZS'         # Employment in services (% of total employment)
+        'SL.TLF.CACT.FM.ZS', 'SL.UEM.TOTL.ZS', 'SL.UEM.1524.ZS',
+        'SL.EMP.TOTL.SP.ZS', 'SL.GDP.PCAP.EM.KD', 'SL.TLF.TOTL.IN',
+        'SL.AGR.EMPL.ZS', 'SL.IND.EMPL.ZS', 'SL.SRV.EMPL.ZS'
     ],
 
     "Gender": [
-        'SG.GEN.PARL.ZS',        # Proportion of seats held by women in national parliaments (%)
-        'SG.LAW.INDX',           # Women Business and the Law Index Score (1-100)
-        'SP.DYN.SMAM.FE',        # Age at first marriage, female
-        'SP.DYN.TFRT.IN',        # Fertility rate, total (births per woman)
-        'SG.VAW.ARGU.ZS',        # Women who believe a husband is justified in beating his wife when she argues with him (%)
-        'SG.GEN.LMGP.MS.ZS',     # Firms with female top manager (% of firms)
-        'SL.TLF.CACT.FM.ZS'      # Female labor force participation (% ages 15+)
+        'SG.GEN.PARL.ZS', 'SG.LAW.INDX', 'SP.DYN.SMAM.FE',
+        'SP.DYN.TFRT.IN', 'SG.VAW.ARGU.ZS', 'SL.TLF.CACT.FM.ZS'
     ],
 
     "Infrastructure & Technology": [
-        'EG.ELC.ACCS.ZS',        # Access to electricity (% of population)
-        'IT.NET.USER.ZS',        # Individuals using the Internet (% of population)
-        'IT.CEL.SETS.P2',        # Mobile cellular subscriptions (per 100 people)
-        'IT.NET.BBND.P2',        # Fixed broadband subscriptions (per 100 people)
-        'IS.RRS.TOTL.KM',        # Rail lines (total route-km)
-        'IS.ROD.TOTL.KM',        # Roads, total network (km)
-        'IS.ROD.PAVE.ZS',        # Roads, paved (% of total roads)
-        'IS.AIR.PSGR',           # Air transport, passengers carried
-        'IT.NET.SECR.P6',        # Secure Internet servers (per 1 million people)
-        'IQ.SCI.OVRL'            # Statistical Capacity score (Overall average)
+        'EG.ELC.ACCS.ZS', 'IT.NET.USER.ZS', 'IT.CEL.SETS.P2', 'IT.NET.BBND.P2',
+        'IS.RRS.TOTL.KM', 'IS.ROD.TOTL.KM', 'IS.ROD.PAVE.ZS',
+        'IS.AIR.PSGR', 'IT.NET.SECR.P6'
     ],
 
     "Energy": [
-        'EG.USE.PCAP.KG.OE',     # Energy use (kg of oil equivalent per capita)
-        'EG.ELC.PROD.KH',        # Electricity production (kWh)
-        'EG.ELC.COAL.ZS',        # Electricity production from coal sources (% of total)
-        'EG.ELC.NUCL.ZS',        # Electricity production from nuclear sources (% of total)
-        'EG.ELC.RNWX.ZS',        # Electricity production from renewable sources, excluding hydroelectric (% of total)
-        'EG.ELC.HYRO.ZS',        # Electricity production from hydroelectric sources (% of total)
-        'EG.ELC.LOSS.ZS',        # Electric power transmission and distribution losses (% of output)
-        'EG.FEC.RNEW.ZS'         # Renewable energy consumption (% of total final energy consumption)
+        'EG.USE.PCAP.KG.OE', 'EG.ELC.COAL.ZS', 'EG.ELC.NUCL.ZS',
+        'EG.ELC.RNWX.ZS', 'EG.ELC.HYRO.ZS', 'EG.ELC.LOSS.ZS',
+        'EG.FEC.RNEW.ZS'
     ],
 
     "Environment & Climate": [
-        'EN.GHG.CO2.PC.CE.AR5',  # CO₂ emissions per capita (t CO₂e/capita)
-        'EN.GHG.CO2.MT.CE.AR5',  # Total CO₂ emissions (Mt CO₂e)
-        'EN.ATM.PM25.MC.M3',     # PM2.5 air pollution, mean annual exposure (micrograms per cubic meter)
-        'EN.ATM.METH.KT.CE',     # Methane emissions (kt of CO2 equivalent)
-        'EN.CLC.GHGR.MT.CE',     # Total greenhouse gas emissions (kt of CO2 equivalent)
-        'ER.PTD.TOTL.ZS',        # Terrestrial and marine protected areas (% of total territorial area)
-        'AG.LND.FRST.ZS',        # Forest area (% of land area)
-        'ER.H2O.FWTL.ZS',        # Annual freshwater withdrawals, total (% of internal resources)
-        'ER.H2O.FWST.ZS'         # Level of water stress: freshwater withdrawal as a proportion of available freshwater resources
+        'EN.GHG.CO2.PC.CE.AR5', 'EN.GHG.CO2.MT.CE.AR5', 'EN.ATM.PM25.MC.M3',
+        'ER.PTD.TOTL.ZS', 'AG.LND.FRST.ZS', 'ER.H2O.FWTL.ZS',
+        'ER.H2O.FWST.ZS'
     ],
 
     "Agriculture": [
-        'AG.LND.AGRI.ZS',        # Agricultural land (% of land area)
-        'AG.LND.CROP.ZS',        # Arable land (% of land area)
-        'AG.YLD.CREL.KG',        # Cereal yield (kg per hectare)
-        'AG.PRD.FOOD.XD',        # Food production index (2014-2016 = 100)
-        'AG.CON.FERT.ZS',        # Fertilizer consumption (kilograms per hectare of arable land)
-        'AG.LND.IRIG.AG.ZS',     # Agricultural irrigated land (% of total agricultural land)
-        'NV.AGR.TOTL.ZS'         # Agriculture, forestry, and fishing, value added (% of GDP)
+        'AG.LND.AGRI.ZS', 'AG.LND.CROP.ZS', 'AG.YLD.CREL.KG',
+        'AG.PRD.FOOD.XD', 'AG.CON.FERT.ZS', 'AG.LND.IRIG.AG.ZS',
+        'NV.AGR.TOTL.ZS'
     ],
 
     "Urban Development": [
-        'SP.URB.GROW',           # Urban population growth (annual %)
-        'EN.URB.LCTY',           # Population in largest city
-        'EN.URB.LCTY.UR.ZS',     # Population in the largest city (% of urban population)
-        'EN.URB.MCTY',           # Population in urban agglomerations of more than 1 million
-        'EN.URB.MCTY.TL.ZS',     # Population in urban agglomerations of more than 1 million (% of total population)
-        'EN.POP.SLUM.UR.ZS'      # Population living in slums (% of urban population)
+        'SP.URB.GROW', 'EN.URB.LCTY', 'EN.URB.LCTY.UR.ZS',
+        'EN.URB.MCTY', 'EN.URB.MCTY.TL.ZS', 'EN.POP.SLUM.UR.ZS'
     ],
 
     "Water, Sanitation & Waste": [
-        'SH.H2O.SMDW.ZS',        # People using safely managed drinking water services (% of population)
-        'SH.STA.SMSS.ZS',        # People using safely managed sanitation services (% of population)
-        'SH.H2O.BASW.ZS',        # People using at least basic drinking water services (% of population)
-        'SH.STA.BASS.ZS'         # People using at least basic sanitation services (% of population)
+        'SH.H2O.SMDW.ZS', 'SH.STA.SMSS.ZS', 'SH.H2O.BASW.ZS', 'SH.STA.BASS.ZS'
     ],
 
     "Science & Innovation": [
-        'IP.PAT.RESD',           # Patent applications, residents
-        'IP.PAT.NRES',           # Patent applications, nonresidents
-        'IP.JRN.ARTC.SC',        # Scientific and technical journal articles
-        'GB.XPD.RSDV.GD.ZS',     # Research and development expenditure (% of GDP)
-        'SP.POP.SCIE.RD.P6',     # Researchers in R&D (per million people)
-        'IP.TMK.TOTL'            # Trademark applications, total
+        'IP.PAT.RESD', 'IP.PAT.NRES', 'IP.JRN.ARTC.SC',
+        'GB.XPD.RSDV.GD.ZS', 'SP.POP.SCIE.RD.P6'
     ]
 }
+
+# ------------------------------------------------------------------
+#  End of file
+# ------------------------------------------------------------------
 
 # Extract the list of all indicator codes needed for data download
 all_indicator_codes = list(indicators.keys())
