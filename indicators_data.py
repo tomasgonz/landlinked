@@ -69,7 +69,7 @@ indicators = {
         'source':      'World Bank',
         'description': 'GDP per capita, PPP (current international $)',
         'agg':         'weighted',
-        'weight_by':   'NY.GDP.MKTP.PP.CD',
+        'weight_by':   'SP.POP.TOTL',
     },
     'NY.GDP.MKTP.KD.ZG': {
         'source':      'World Bank',
@@ -80,8 +80,9 @@ indicators = {
     'NY.GDP.PCAP.CD': {
         'source':      'World Bank',
         'description': 'GDP per capita (current US$)',
+        'agg':          'mean',
         'agg':         'weighted',
-        'weight_by':   'NY.GDP.MKTP.CD',
+        'weight_by':   'SP.POP.TOTL',
     },
     'NY.GNP.PCAP.PP.CD': {
         'source':      'World Bank',

@@ -40,12 +40,7 @@
             "ISO": "BJ",
             "ISO3": "BEN"
         },
-        {
-            "name": "Bhutan",
-            "ISO": "BT",
-            "ISO3": "BTN"
-        },
-        {
+       {
             "name": "Burkina Faso",
             "ISO": "BF",
             "ISO3": "BFA"
@@ -77,8 +72,8 @@
         },
         {
             "name": "Congo, Dem. Rep.",
-            "ISO": null,
-            "ISO3": null
+            "ISO": "CD",
+            "ISO3": "COD"
         },
         {
             "name": "Djibouti",
@@ -271,12 +266,7 @@
             "name": "Benin",
             "ISO": "BJ",
             "ISO3": "BEN"
-        },
-        {
-            "name": "Bhutan",
-            "ISO": "BT",
-            "ISO3": "BTN"
-        },
+        }, 
         {
             "name": "Burkina Faso",
             "ISO": "BF",

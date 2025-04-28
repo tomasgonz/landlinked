@@ -45,7 +45,7 @@ def compute_group_aggregate(indicator_id: str, group: str) -> pd.Series:
         den = m.groupby("date")["value_wgt"].sum()
         result = num.div(den)
         result.name = "value"
-        return [result.sort_index(), m]
+        return [result.sort_index()]
 
 
     else:
