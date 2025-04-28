@@ -104,95 +104,100 @@ def display_indicator_comparison_card(indicator_code: str, combined_df: pd.DataF
 
 # ----------------------------- Sidebar ------------------------------------
 with st.sidebar:
-    st.title("Navigation")
+    st.title("Settings") # Changed from Navigation for clarity
 
+    # --- Group Selection (remains multiselect) ---
+    # Make group list dynamic if possible, otherwise hardcode available groups
+    available_groups = ["LLDCs", "LDCs", "SIDS", "g77", "oecd", "eu", "g20", "aosis", "lmcs", "lics"] # Add more groups your 'groups.py' supports
     selected_groups = st.multiselect(
-        "Select the group of countries",
-        ["LLDCs", "LDCs", "SIDS"],
-        key="group",
+        "Select comparison groups:",
+        options=available_groups,
+        default=["World", "LDCs"], # Sensible defaults
+        key="group_multi_select",
     )
 
     st.divider()
-    st.markdown("### Jump to category")
 
-    category = st.radio(
-        "",
-        list(categorized_indicators.keys()),
-        key="category",
-        label_visibility="collapsed",
+    # --- Category Selection (CHANGED to multiselect) ---
+    st.markdown("### Select Categories")
+    category_options = list(categorized_indicators.keys())
+    selected_categories = st.multiselect(
+        "Select indicator categories to display:",
+        options=category_options,
+        default=category_options[:3], # Default to the first few categories
+        key="category_multi_select",
     )
 
 # ─────────────────────────────── Main pane ────────────────────────────────
 def main():
-    # Check if groups are selected in the sidebar
+    # --- Check Selections ---
     if not selected_groups:
         st.info("Select at least one group in the sidebar ⬅️ to compare.")
-        st.stop() # Halt execution if no groups selected
+        st.stop()
+    if not selected_categories:
+        st.info("Select at least one category in the sidebar ⬅️ to display.")
+        st.stop()
 
-    # Display general info about the comparison
+    # --- Display Header ---
     st.header(f"Indicator Comparison for: {', '.join(selected_groups)}")
+    st.markdown("Displaying categories: " + ", ".join(selected_categories))
     st.markdown("---")
 
-    # Get the indicators for the selected category from the sidebar radio button
-    indicator_codes_in_category = categorized_indicators.get(category, [])
+    # --- Loop through SELECTED Categories ---
+    for category_name in selected_categories:
+        st.markdown(f"## {category_name}") # Display category header
 
-    if not indicator_codes_in_category:
-        st.warning(f"No indicators defined for category: {category}")
-        return
+        indicator_codes_in_category = categorized_indicators.get(category_name, [])
 
-    st.markdown(f"## {category}") # Display category title
+        if not indicator_codes_in_category:
+            st.warning(f"No indicators defined for category: {category_name}")
+            continue # Skip to next category
 
-    # Loop through indicators in the selected category (NO COLUMNS NEEDED)
-    for ind_code in indicator_codes_in_category:
+        # --- Loop through indicators within THIS category ---
+        # (The logic inside this loop for aggregation and display remains the same)
+        for ind_code in indicator_codes_in_category:
+            if ind_code not in indicators:
+                st.warning(f"Metadata missing for {ind_code}")
+                st.divider()
+                continue
 
-        if ind_code not in indicators:
-            st.warning(f"Metadata missing for {ind_code}")
-            st.divider()
-            continue
+            # Aggregate data for all selected groups for this indicator
+            # st.write(f"Processing indicator: {ind_code}...") # Optional: Debug print
+            all_series = {}
+            for group_name in selected_groups:
+                try:
+                    series_result = compute_group_aggregate(ind_code, group_name.lower())
+                    if series_result and isinstance(series_result, (list, tuple)) and len(series_result) > 0 and not series_result[0].empty:
+                        series_data = series_result[0]
+                        series_data.name = group_name
+                        all_series[group_name] = series_data
+                except Exception as e:
+                    st.warning(f"Could not compute data for {ind_code} / {group_name}: {e}")
 
-        # --- Aggregate data for all selected groups for this indicator ---
-        # st.write(f"Processing indicator: {ind_code}...") # Optional: Debug print
-        all_series = {}
-        for group_name in selected_groups:
-            try:
-                # Call the (cached) function from data_ops.py
-                series_result = compute_group_aggregate(ind_code, group_name.lower())
-                # Check if result is valid list/tuple and series is not empty
-                if series_result and isinstance(series_result, (list, tuple)) and len(series_result) > 0 and not series_result[0].empty:
-                    series_data = series_result[0]
-                    series_data.name = group_name # Name series for legend/column name
-                    all_series[group_name] = series_data
-                # else: # Optional: Log if a specific group returned empty/invalid data
-                #    print(f"Invalid/Empty series returned for {ind_code} / {group_name}")
-            except Exception as e:
-                # Log error for specific group aggregation failure but continue loop
-                st.warning(f"Could not compute data for {ind_code} / {group_name}: {e}")
+            # Combine and display if data was found
+            if all_series:
+                try:
+                    combined_df = pd.concat(all_series, axis=1)
+                    if combined_df.empty:
+                         st.info(f"Combined data is empty for '{indicators[ind_code]['description']}'.")
+                         st.divider()
+                         continue
 
-        # --- If we collected any data for *any* selected group, combine and display ---
-        if all_series:
-            try:
-                # Combine dict of series into a single DataFrame
-                combined_df = pd.concat(all_series, axis=1)
-                if combined_df.empty:
-                     st.info(f"Combined data is empty for '{indicators[ind_code]['description']}'.")
-                     st.divider()
-                     continue # Skip to next indicator if df is empty after concat
+                    combined_df.index.name = "date"
+                    # Call the display function which handles chart, table, download
+                    display_indicator_comparison_card(ind_code, combined_df)
 
-                combined_df.index.name = "date" # Ensure index is named
-
-                # --- Call the display function for the combined data ---
-                # This function now handles subheader, chart, table, download
-                display_indicator_comparison_card(ind_code, combined_df)
-
-            except Exception as e:
-                # Display error specific to combining/displaying this indicator
-                st.error(f"Error preparing/displaying comparison for {ind_code}: {e}")
-                st.divider() # Still add divider on error
-        else:
-             # If NO series were successfully aggregated for this indicator across ALL selected groups
-             st.info(f"No data available to compare for '{indicators[ind_code]['description']}' for the selected groups.")
-             st.divider()
+                except Exception as e:
+                    st.error(f"Error preparing/displaying comparison for {ind_code}: {e}")
+                    st.divider()
+            else:
+                 # If no data for any group for this indicator
+                 st.info(f"No data available to compare for '{indicators[ind_code]['description']}' for the selected groups.")
+                 st.divider()
+        # Add a larger separator between categories if desired
+        # st.markdown("---")
 
 # --- Run the main function ---
 if __name__ == "__main__":
    main()
+
