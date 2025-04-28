@@ -86,14 +86,14 @@ def display_indicator_comparison_card(indicator_code: str, combined_df: pd.DataF
     st.line_chart(combined_df)
 
     # Data area + download for the combined data
-    st.dataframe(combined_df.tail(10), use_container_width=True)
+    st.dataframe(combined_df.T, use_container_width=True)
 
     excel_bytes = to_excel(combined_df)
     # Make filename descriptive of comparison
     download_filename = f"{indicator_code}_comparison_{'_'.join(combined_df.columns)}.xlsx"
 
     st.download_button(
-        "📥 Download comparison as Excel",
+        "📥 Download ",
         excel_bytes,
         download_filename,
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
