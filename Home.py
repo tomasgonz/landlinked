@@ -140,8 +140,9 @@ if selected_country:
         display_chart(indicator_data, "CO2 emissions (pc)", "World Bank")
 
         st.subheader("Labor force")
-
-        st.markdown(f"**Youth unemployment rate**<br>{factbook_data['Economy']['Youth unemployment rate (ages 15-24)']['total']['text']}", unsafe_allow_html=True)
+        if 'Economy' in factbook_data and \
+                   'Youth unemployment rate (ages 15-24)' in factbook_data['Economy']:
+            st.markdown(f"**Youth unemployment rate**<br>{factbook_data['Economy']['Youth unemployment rate (ages 15-24)']['total']['text']}", unsafe_allow_html=True)
 
         # Load the data for the selected country
         indicator_data = load_indicator_country_data_from_cache("SL.TLF.CACT.FM.ZS", group_name.lower(), selected_country)
