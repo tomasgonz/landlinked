@@ -4,7 +4,7 @@ from indicators import WorldBankAPI, indicators
 api_client = WorldBankAPI(indicators)
 
 # List of groups to process
-groups = ["lldcs", "ldcs", "sids", "g77", "brics", "eu", "oecd", "g20", "brics", "aosis", "lmcs", "lics"]
+groups = ["lldcs", "ldcs", "sids", "g77", "brics", "eu", "oecd", "g20", "aosis", "lmcs", "lics"]
 
 # Process each group
 for group_code in groups:

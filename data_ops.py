@@ -3,12 +3,19 @@ from pathlib import Path
 import streamlit as st
 from indicators_data import indicators
 
-@st.cache_data
 def load_group_data(indicator_id: str, group: str) -> pd.DataFrame:
     """
     Reads indicator_<group>.json, returns a DataFrame with columns
     [country_id, country_name, date, value].
+    File-existence check is NOT cached so new downloads are picked up.
     """
+    path = Path(f"cache/indicators/{indicator_id}_{group}.json")
+    if not path.exists():
+        return pd.DataFrame(columns=["country_id", "country_name", "date", "value"])
+    return _load_group_data_cached(indicator_id, group)
+
+@st.cache_data
+def _load_group_data_cached(indicator_id: str, group: str) -> pd.DataFrame:
     path = Path(f"cache/indicators/{indicator_id}_{group}.json")
     meta, records = json.loads(path.read_text())
     df = pd.json_normalize(records)

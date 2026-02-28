@@ -1,0 +1,15 @@
+[Unit]
+Description=Landlinked Streamlit App
+After=network.target
+
+[Service]
+Type=simple
+User=exedev
+WorkingDirectory=/home/exedev/landlinked
+ExecStart=/home/exedev/landlinked/venv/bin/streamlit run Home.py --server.port 8501 --server.address 127.0.0.1 --server.runOnSave true --server.fileWatcherType watchdog
+Restart=always
+RestartSec=3
+Environment=PATH=/home/exedev/landlinked/venv/bin:/usr/bin:/bin
+
+[Install]
+WantedBy=multi-user.target

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "booklet"
+name = "landlinked"
 version = "0.1.0"
 description = ""
 authors = ["Tomas Gonzalez <tomasgonz@gmail.com>"]

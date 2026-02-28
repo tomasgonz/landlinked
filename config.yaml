@@ -3,9 +3,10 @@ app:
   show_group_selector: true  # Set this to true or false to control group selection
   sidebar_width: 300
   css_customizations:
-    main_font: "Arial"
-    h1_font_size: "2.5rem"
-    h1_font_weight: "bold"
+    main_font: "Inter"
+    primary_color: "#003366"
+    h1_font_size: "2.2rem"
+    h1_font_weight: "600"
 
 display:
   show_quotes: true

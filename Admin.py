@@ -1,12 +1,12 @@
 import streamlit as st 
-from indicators import download_all_indicators
+from indicators import download_indicators_data
 from country_facts import fetch_and_cache_countries_data
 import os
 import shutil
 
-#st.button("Download all indicators for LLDCs", on_click=download_all_indicators("lldcs"))
-#st.button("Download all indicators for LDCs", on_click=download_all_indicators("ldcs"))
-#st.button("Download all indicators for SIDS", on_click=download_all_indicators("sids"))
+#st.button("Download all indicators for LLDCs", on_click=download_indicators_data("lldcs"))
+#st.button("Download all indicators for LDCs", on_click=download_indicators_data("ldcs"))
+#st.button("Download all indicators for SIDS", on_click=download_indicators_data("sids"))
 #st.button("Fetch and cache countries data", on_click=fetch_and_cache_countries_data)
 
 def copy_json_files():

@@ -80,7 +80,6 @@ indicators = {
     'NY.GDP.PCAP.CD': {
         'source':      'World Bank',
         'description': 'GDP per capita (current US$)',
-        'agg':          'mean',
         'agg':         'weighted',
         'weight_by':   'SP.POP.TOTL',
     },
@@ -686,6 +685,12 @@ indicators = {
     },
 
     # --------------------  ENVIRONMENT & CLIMATE  -----------------------
+    'EN.ATM.CO2E.PC': {
+        'source':      'World Bank',
+        'description': 'CO₂ emissions (metric tons per capita)',
+        'agg':         'weighted',
+        'weight_by':   'SP.POP.TOTL',
+    },
     'EN.GHG.CO2.MT.CE.AR5': {
         'source':      'World Bank',
         'description': 'Total CO₂ emissions (Mt CO₂-eq, AR5)',
@@ -945,7 +950,7 @@ categorized_indicators = {
     ],
 
     "Environment & Climate": [
-        'EN.GHG.CO2.PC.CE.AR5', 'EN.GHG.CO2.MT.CE.AR5', 'EN.ATM.PM25.MC.M3',
+        'EN.ATM.CO2E.PC', 'EN.GHG.CO2.PC.CE.AR5', 'EN.GHG.CO2.MT.CE.AR5', 'EN.ATM.PM25.MC.M3',
         'ER.PTD.TOTL.ZS', 'AG.LND.FRST.ZS', 'ER.H2O.FWTL.ZS',
         'ER.H2O.FWST.ZS'
     ],

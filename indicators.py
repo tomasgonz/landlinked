@@ -56,7 +56,7 @@ class WorldBankAPI:
         for attempt in range(MAX_RETRIES):
             try:
                 self._respect_rate_limit()
-                url = f"https://api.worldbank.org/v2/country/{countries_str}/indicator/{indicator_code}?date=2010:2024&per_page=10000&format=json"
+                url = f"https://api.worldbank.org/v2/country/{countries_str}/indicator/{indicator_code}?date=2010:2025&per_page=10000&format=json"
                 response = self.session.get(url, timeout=10)
                 response.raise_for_status()
                 result = response.json()
@@ -102,7 +102,7 @@ class WorldBankAPI:
         """Helper to fetch a specific page of results"""
         try:
             self._respect_rate_limit()
-            url = f"https://api.worldbank.org/v2/country/{countries_str}/indicator/{indicator_code}?date=2010:2024&format=json&per_page=10000&page={page}"
+            url = f"https://api.worldbank.org/v2/country/{countries_str}/indicator/{indicator_code}?date=2010:2025&format=json&per_page=10000&page={page}"
             response = self.session.get(url, timeout=10)
             response.raise_for_status()
             return response.json()[1]  # Return just the data part
