@@ -33,10 +33,18 @@ label_to_code = {v: k for k, v in indicator_labels.items()}
 with st.sidebar:
     st.markdown("""
     <div class="sidebar-brand">
-        <h1>Landlinked — Indicators</h1>
-        <div class="brand-subtitle">Select indicators and groups to explore aggregate trends</div>
+        <h1>Landlinked</h1>
+        <div class="brand-subtitle">From landlocked to landlinked</div>
+        <div class="brand-author">by Tomas Gonzalez</div>
     </div>
     """, unsafe_allow_html=True)
+
+    st.page_link("Home.py", label="Country Profiles", icon="🏠")
+    st.page_link("pages/Groups.py", label="Groups", icon="🌐")
+    st.page_link("pages/Indicators.py", label="Indicators", icon="📊")
+    st.divider()
+
+    st.markdown("**Select indicators and groups to explore aggregate trends**")
 
     # --- Group selection ---
     available_groups = [

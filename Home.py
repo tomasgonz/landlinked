@@ -42,9 +42,15 @@ st.markdown(css_general, unsafe_allow_html=True)
 st.sidebar.markdown("""
 <div class="sidebar-brand">
     <h1>Landlinked</h1>
-    <div class="brand-subtitle">From landlocked to landlinked — data for development</div>
+    <div class="brand-subtitle">From landlocked to landlinked</div>
+    <div class="brand-author">by Tomas Gonzalez</div>
 </div>
 """, unsafe_allow_html=True)
+
+st.sidebar.page_link("Home.py", label="Country Profiles", icon="🏠")
+st.sidebar.page_link("pages/Groups.py", label="Groups", icon="🌐")
+st.sidebar.page_link("pages/Indicators.py", label="Indicators", icon="📊")
+st.sidebar.divider()
 
 if config['app']['show_group_selector']:
     group_name = st.sidebar.selectbox("Select the group of countries", ["LLDCs", "LDCs", "SIDS"])

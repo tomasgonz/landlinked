@@ -2,6 +2,14 @@ css_general = """
 <style>
     /* ── Google Fonts ─────────────────────────────────────────────────── */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    /* ── Fix Streamlit material icons showing as text ────────────────── */
+    .material-symbols-rounded {
+        font-size: 0px !important;
+        width: 24px !important;
+        height: 24px !important;
+        overflow: hidden !important;
+        display: inline-block !important;
+    }
 
     /* ── CSS Custom Properties ────────────────────────────────────────── */
     :root {
@@ -397,6 +405,16 @@ css_general = """
         box-shadow: 0 0 0 1px var(--navy) !important;
     }
 
+    /* ── Hide Streamlit bottom nav bar ───────────────────────────────── */
+    [data-testid="stBottomBlockContainer"] {
+        display: none !important;
+    }
+
+    /* ── Hide broken material icon text in Streamlit UI ──────────────── */
+    [data-testid="stSidebarNav"] {
+        display: none !important;
+    }
+
     /* ── Divider ──────────────────────────────────────────────────────── */
     hr {
         border-color: var(--border-light) !important;
@@ -423,6 +441,13 @@ css_general = """
         font-family: var(--font-family);
     }
 
+    .sidebar-brand .brand-author {
+        color: rgba(255,255,255,0.45);
+        font-size: 0.72rem;
+        margin-top: 0.25rem;
+        font-family: var(--font-family);
+    }
+
     /* ── Groups Page Comparison Card ──────────────────────────────────── */
     .comparison-card-header {
         border-left: 4px solid var(--navy);
@@ -441,6 +466,175 @@ css_general = """
         font-size: 0.8rem;
         margin-top: 0.15rem;
         font-family: var(--font-family);
+    }
+
+    /* ── Groups Page ─────────────────────────────────────────────────── */
+    .group-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-md);
+        padding: 1.1rem 1.25rem;
+        margin-bottom: 0.85rem;
+        transition: all 0.2s;
+        font-family: var(--font-family);
+    }
+
+    .group-card.highlighted {
+        border-left: 4px solid var(--teal);
+        box-shadow: var(--shadow-md);
+        background: #FAFFFE;
+    }
+
+    .group-card.dimmed {
+        opacity: 0.45;
+    }
+
+    .group-card-header {
+        display: flex;
+        align-items: baseline;
+        gap: 0.6rem;
+        margin-bottom: 0.35rem;
+        flex-wrap: wrap;
+    }
+
+    .group-acronym {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--navy);
+        font-family: var(--font-family);
+    }
+
+    .group-fullname {
+        font-size: 0.92rem;
+        color: var(--text-secondary);
+        font-family: var(--font-family);
+    }
+
+    .group-meta {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 0.5rem;
+        font-family: var(--font-family);
+    }
+
+    .classifier-badge {
+        display: inline-block;
+        background: var(--bg-hover);
+        padding: 0.12rem 0.5rem;
+        border-radius: var(--radius-sm);
+        font-size: 0.73rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        font-family: var(--font-family);
+    }
+
+    .group-description {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 0.65rem;
+        font-family: var(--font-family);
+    }
+
+    .country-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+    }
+
+    .country-chip {
+        display: inline-block;
+        padding: 0.18rem 0.5rem;
+        background: var(--bg-hover);
+        border-radius: var(--radius-sm);
+        font-size: 0.78rem;
+        color: var(--text-primary);
+        font-family: var(--font-family);
+        transition: all 0.15s;
+        line-height: 1.5;
+    }
+
+    .country-chip.active {
+        background: var(--teal);
+        color: #FFFFFF;
+        font-weight: 600;
+    }
+
+    .membership-summary {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .membership-badge {
+        display: inline-block;
+        padding: 0.3rem 0.7rem;
+        background: var(--navy);
+        color: #FFFFFF;
+        border-radius: var(--radius-md);
+        font-size: 0.82rem;
+        font-weight: 500;
+        font-family: var(--font-family);
+    }
+
+    .groups-stats {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .groups-stat-item {
+        text-align: center;
+    }
+
+    .groups-stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--navy);
+        line-height: 1.2;
+        font-family: var(--font-family);
+    }
+
+    .groups-stat-label {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-family: var(--font-family);
+    }
+
+    /* ── Page Navigation Links ───────────────────────────────────────── */
+    .nav-links {
+        display: flex;
+        gap: 0.25rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .nav-links a {
+        display: inline-block;
+        padding: 0.35rem 0.75rem;
+        color: rgba(255,255,255,0.7) !important;
+        text-decoration: none !important;
+        font-size: 0.82rem;
+        font-weight: 500;
+        border-radius: var(--radius-sm);
+        transition: all 0.2s;
+        font-family: var(--font-family);
+    }
+
+    .nav-links a:hover {
+        color: #FFFFFF !important;
+        background: rgba(255,255,255,0.1);
+    }
+
+    .nav-links a.active {
+        color: #FFFFFF !important;
+        background: var(--teal);
+        font-weight: 600;
     }
 </style>
 """
