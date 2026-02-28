@@ -2,13 +2,24 @@ css_general = """
 <style>
     /* ── Google Fonts ─────────────────────────────────────────────────── */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    /* ── Fix Streamlit material icons showing as text ────────────────── */
+    @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+    /* ── Material icons ─ ensure font renders glyphs, not text ──────── */
     .material-symbols-rounded {
-        font-size: 0px !important;
-        width: 24px !important;
-        height: 24px !important;
-        overflow: hidden !important;
+        font-family: 'Material Symbols Rounded' !important;
+        font-weight: normal !important;
+        font-style: normal !important;
+        font-size: 20px !important;
+        line-height: 1 !important;
+        letter-spacing: normal !important;
+        text-transform: none !important;
         display: inline-block !important;
+        white-space: nowrap !important;
+        word-wrap: normal !important;
+        direction: ltr !important;
+        -webkit-font-feature-settings: 'liga' !important;
+        font-feature-settings: 'liga' !important;
+        -webkit-font-smoothing: antialiased;
     }
 
     /* ── CSS Custom Properties ────────────────────────────────────────── */
