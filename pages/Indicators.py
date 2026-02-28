@@ -39,9 +39,10 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-    st.page_link("Home.py", label="Country Profiles", icon="🏠")
-    st.page_link("pages/Groups.py", label="Groups", icon="🌐")
-    st.page_link("pages/Indicators.py", label="Indicators", icon="📊")
+    st.page_link("Home.py", label="Country Profiles")
+    st.page_link("pages/Groups.py", label="Groups")
+    st.page_link("pages/Indicators.py", label="Indicators")
+    st.page_link("pages/Stories.py", label="Stories")
     st.divider()
 
     st.markdown("**Select indicators and groups to explore aggregate trends**")

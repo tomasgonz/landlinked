@@ -47,9 +47,10 @@ st.sidebar.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.sidebar.page_link("Home.py", label="Country Profiles", icon="🏠")
-st.sidebar.page_link("pages/Groups.py", label="Groups", icon="🌐")
-st.sidebar.page_link("pages/Indicators.py", label="Indicators", icon="📊")
+st.sidebar.page_link("Home.py", label="Country Profiles")
+st.sidebar.page_link("pages/Groups.py", label="Groups")
+st.sidebar.page_link("pages/Indicators.py", label="Indicators")
+st.sidebar.page_link("pages/Stories.py", label="Stories")
 st.sidebar.divider()
 
 if config['app']['show_group_selector']:

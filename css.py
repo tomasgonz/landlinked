@@ -1,26 +1,8 @@
 css_general = """
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <style>
-    /* ── Google Fonts ─────────────────────────────────────────────────── */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
-
-    /* ── Material icons ─ ensure font renders glyphs, not text ──────── */
-    .material-symbols-rounded {
-        font-family: 'Material Symbols Rounded' !important;
-        font-weight: normal !important;
-        font-style: normal !important;
-        font-size: 20px !important;
-        line-height: 1 !important;
-        letter-spacing: normal !important;
-        text-transform: none !important;
-        display: inline-block !important;
-        white-space: nowrap !important;
-        word-wrap: normal !important;
-        direction: ltr !important;
-        -webkit-font-feature-settings: 'liga' !important;
-        font-feature-settings: 'liga' !important;
-        -webkit-font-smoothing: antialiased;
-    }
 
     /* ── CSS Custom Properties ────────────────────────────────────────── */
     :root {
@@ -46,7 +28,7 @@ css_general = """
     }
 
     /* ── Global Typography ────────────────────────────────────────────── */
-    html, body, [class*="css"] {
+    html, body, [class*="css"]:not([data-testid="stIconMaterial"]) {
         font-family: var(--font-family) !important;
     }
 
@@ -82,7 +64,7 @@ css_general = """
         font-size: 1.25rem !important;
     }
 
-    p, li, span, div {
+    p, li, span:not([data-testid="stIconMaterial"]), div {
         font-family: var(--font-family) !important;
     }
 
@@ -91,7 +73,7 @@ css_general = """
         background: linear-gradient(180deg, var(--navy-dark) 0%, var(--navy) 100%) !important;
     }
 
-    [data-testid="stSidebar"] * {
+    [data-testid="stSidebar"] *:not([data-testid="stIconMaterial"]) {
         color: #FFFFFF !important;
         font-family: var(--font-family) !important;
     }
@@ -646,6 +628,70 @@ css_general = """
         color: #FFFFFF !important;
         background: var(--teal);
         font-weight: 600;
+    }
+
+    /* ── Group Detail Header (Mode C) ────────────────────────────────── */
+    .group-detail-header .group-acronym {
+        font-size: 2.2rem;
+    }
+
+    .group-detail-header .group-fullname {
+        font-size: 1.1rem;
+    }
+
+    /* ── Story Cards ─────────────────────────────────────────────────── */
+    .story-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-md);
+        padding: 1.1rem 1.25rem;
+        margin-bottom: 0.85rem;
+        transition: all 0.2s;
+        font-family: var(--font-family);
+    }
+
+    .story-card:hover {
+        border-color: var(--teal);
+        box-shadow: var(--shadow-md);
+    }
+
+    .story-card h3 {
+        color: var(--navy) !important;
+        font-size: 1.15rem !important;
+    }
+
+    .story-meta {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        margin: 0.35rem 0 0.5rem 0;
+        font-family: var(--font-family);
+    }
+
+    .story-preview {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-top: 0.4rem;
+        font-family: var(--font-family);
+    }
+
+    /* ── Material icons ─ ensure font renders glyphs, not text ──────── */
+    /* Streamlit uses Emotion CSS-in-JS with data-testid="stIconMaterial" */
+    [data-testid="stIconMaterial"],
+    [data-testid="stSidebar"] [data-testid="stIconMaterial"],
+    .stApp [data-testid="stIconMaterial"] {
+        font-family: 'Material Symbols Rounded' !important;
+        font-weight: normal !important;
+        font-style: normal !important;
+        line-height: 1 !important;
+        letter-spacing: normal !important;
+        text-transform: none !important;
+        white-space: nowrap !important;
+        word-wrap: normal !important;
+        direction: ltr !important;
+        -webkit-font-feature-settings: 'liga' !important;
+        font-feature-settings: 'liga' !important;
+        -webkit-font-smoothing: antialiased;
     }
 </style>
 """
